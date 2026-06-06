@@ -54,6 +54,8 @@ const snapshotNameInput = document.querySelector("#snapshotNameInput");
 const snapshotSelect = document.querySelector("#snapshotSelect");
 const saveSnapshotBtn = document.querySelector("#saveSnapshotBtn");
 const loadSnapshotBtn = document.querySelector("#loadSnapshotBtn");
+const demoSampleInput = document.querySelector("#demoSampleInput");
+const loadDemoBtn = document.querySelector("#loadDemoBtn");
 
 const controls = {
   text: document.querySelector("#textInput"),
@@ -2019,6 +2021,64 @@ function loadSnapshot() {
   setAutosaveStatus(`Loaded ${snapshot.name}`);
 }
 
+function sampleBody(name, eyebrow, headline, copy) {
+  return initialBody
+    .replaceAll("Northline Studio", name)
+    .replace("Interface design", eyebrow)
+    .replace("A compact launch page for teams shaping polished digital products with a clear voice and a calm visual system.", copy)
+    .replace("<h1>Northline Studio</h1>", `<h1>${headline}</h1>`);
+}
+
+function loadDemoSample() {
+  const samples = {
+    studio: {
+      title: "Northline Studio",
+      industry: "portfolio",
+      body: initialBody,
+    },
+    saas: {
+      title: "SignalDesk",
+      industry: "saas",
+      body: sampleBody("SignalDesk", "SaaS platform", "SignalDesk", "A focused product page for teams turning customer signals into sharper decisions."),
+    },
+    restaurant: {
+      title: "Mori Table",
+      industry: "restaurant",
+      body: sampleBody("Mori Table", "Seasonal dining", "Mori Table", "A warm restaurant page for reservations, menus, and a memorable first impression."),
+    },
+    portfolio: {
+      title: "Aya Works",
+      industry: "portfolio",
+      body: sampleBody("Aya Works", "Portfolio", "Aya Works", "A polished portfolio page for selected work, services, and direct inquiries."),
+    },
+    ecommerce: {
+      title: "North Goods",
+      industry: "ecommerce",
+      body: sampleBody("North Goods", "Online store", "North Goods", "A compact commerce page for showcasing products and guiding visitors toward purchase."),
+    },
+  };
+
+  const sample = samples[demoSampleInput.value] || samples.studio;
+  currentCss = pageCss;
+  currentHeadExtras = "";
+  currentSourceUrl = "";
+  currentPageTitle = sample.title;
+  currentBeforeBody = sample.body;
+  currentBeforeCss = pageCss;
+  responsiveOverrides = {};
+  history = [];
+  historyIndex = -1;
+  selectedId = "body";
+  renderBeforeFrame(currentBeforeBody, currentBeforeCss);
+  renderFrame(sample.body, currentCss, () => {
+    designControls.industryPreset.value = sample.industry;
+    applyIndustryPolish();
+    applyDesignSystem({ commitNow: true });
+    setPreviewMode("after");
+    setAutosaveStatus("Demo loaded");
+  });
+}
+
 function setStyle(prop, value) {
   const element = getSelectedElement();
   if (!element || fillingInspector) {
@@ -3118,6 +3178,15 @@ function setPreviewMode(mode) {
   resizePreview();
 }
 
+function setInspectorTab(tab) {
+  for (const button of document.querySelectorAll("[data-inspector-tab]")) {
+    button.classList.toggle("is-active", button.dataset.inspectorTab === tab);
+  }
+  for (const panel of document.querySelectorAll("[data-inspector-panel]")) {
+    panel.classList.toggle("is-hidden", panel.dataset.inspectorPanel !== tab);
+  }
+}
+
 function updateDiffSlider() {
   stageCompare.style.setProperty("--split", `${diffSlider.value}%`);
 }
@@ -3291,6 +3360,7 @@ function setupControls() {
   newProjectBtn.addEventListener("click", newProject);
   saveSnapshotBtn.addEventListener("click", saveSnapshot);
   loadSnapshotBtn.addEventListener("click", loadSnapshot);
+  loadDemoBtn.addEventListener("click", loadDemoSample);
   layerSearch.addEventListener("input", () => {
     layerFilter = layerSearch.value;
     refreshLayers();
@@ -3316,6 +3386,9 @@ function setupControls() {
 
   for (const button of document.querySelectorAll("[data-preview-mode]")) {
     button.addEventListener("click", () => setPreviewMode(button.dataset.previewMode));
+  }
+  for (const button of document.querySelectorAll("[data-inspector-tab]")) {
+    button.addEventListener("click", () => setInspectorTab(button.dataset.inspectorTab));
   }
   diffSlider.addEventListener("input", updateDiffSlider);
   updateDiffSlider();
@@ -3394,6 +3467,7 @@ function init() {
   setupDesignControls();
   setupControls();
   refreshSnapshotSelect();
+  setInspectorTab("content");
   updateHistoryButtons();
   renderBeforeFrame(currentBeforeBody, currentBeforeCss);
   renderFrame(initialBody, currentCss, () => {

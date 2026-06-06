@@ -138,6 +138,17 @@
                 <svg class="icon"><use href="#i-import"></use></svg>
               </button>
             </div>
+            <label class="field">
+              <span>Demo Sample</span>
+              <select id="demoSampleInput">
+                <option value="studio">Studio</option>
+                <option value="saas">SaaS</option>
+                <option value="restaurant">Restaurant</option>
+                <option value="portfolio">Portfolio</option>
+                <option value="ecommerce">E-commerce</option>
+              </select>
+            </label>
+            <button class="text-button wide" id="loadDemoBtn" type="button">Load Demo</button>
           </section>
           <section class="panel-section">
             <h2>Blocks</h2>
@@ -262,8 +273,14 @@
             <span id="selectedBadge">Body</span>
           </div>
           <div class="selection-path" id="selectionPath"></div>
+          <div class="inspector-tabs" aria-label="Inspector tabs">
+            <button class="is-active" type="button" data-inspector-tab="content">Content</button>
+            <button type="button" data-inspector-tab="layout">Layout</button>
+            <button type="button" data-inspector-tab="style">Style</button>
+            <button type="button" data-inspector-tab="actions">Actions</button>
+          </div>
 
-          <section class="panel-section">
+          <section class="panel-section" data-inspector-panel="content">
             <label class="field">
               <span>Text</span>
               <textarea id="textInput" rows="4" spellcheck="false"></textarea>
@@ -284,7 +301,7 @@
             <button class="text-button wide" id="compressImageBtn" type="button">Compress image</button>
           </section>
 
-          <section class="panel-section layout-tools">
+          <section class="panel-section layout-tools" data-inspector-panel="layout">
             <h2>Layout</h2>
             <div class="two-col tight">
               <label class="field">
@@ -327,7 +344,7 @@
             </label>
           </section>
 
-          <section class="panel-section style-tools">
+          <section class="panel-section style-tools" data-inspector-panel="style">
             <h2>Style Tools</h2>
             <label class="field">
               <span>Style Scope</span>
@@ -363,7 +380,7 @@
             </label>
           </section>
 
-          <section class="panel-section two-col">
+          <section class="panel-section two-col" data-inspector-panel="style">
             <label class="field">
               <span>Text</span>
               <input id="colorInput" type="color">
@@ -389,7 +406,7 @@
             </label>
           </section>
 
-          <section class="panel-section">
+          <section class="panel-section" data-inspector-panel="layout">
             <label class="field">
               <span>Align</span>
               <select id="alignInput">
@@ -416,7 +433,7 @@
             </label>
           </section>
 
-          <section class="panel-section action-grid">
+          <section class="panel-section action-grid" data-inspector-panel="actions">
             <button class="icon-action" id="moveUpBtn" type="button" title="Move up" aria-label="Move up">
               <svg class="icon"><use href="#i-up"></use></svg>
             </button>

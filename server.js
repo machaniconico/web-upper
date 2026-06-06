@@ -174,6 +174,14 @@ const server = http.createServer((request, response) => {
     return;
   }
 
+  if (url.pathname === "/health") {
+    send(response, 200, "ok", {
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "no-store",
+    });
+    return;
+  }
+
   serveStatic(request, response, url);
 });
 

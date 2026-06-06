@@ -1,0 +1,15 @@
+{
+  "name": "web-upper",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local website UI editing tool with before/after preview, design tools, export helpers, and optional rendered-page capture.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check app.js && node --check server.js",
+    "playwright:install": "npm install -D playwright"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
