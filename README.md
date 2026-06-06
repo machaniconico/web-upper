@@ -16,6 +16,29 @@ http://localhost:4173
 
 Node 18 or newer is required.
 
+## Windows Launcher
+
+On Windows, double-click:
+
+```text
+Web Upper 起動.cmd
+```
+
+This starts the local server if needed and opens `http://localhost:4173`.
+
+To create or recreate the icon shortcut:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\create-windows-shortcut.ps1
+```
+
+The checked-in launcher files are:
+
+- `Web Upper 起動.cmd`
+- `launch-web-upper.ps1`
+- `create-windows-shortcut.ps1`
+- `assets/web-upper-icon.svg`
+
 ## Features
 
 - URL loading through the local Node proxy
