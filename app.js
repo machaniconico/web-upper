@@ -416,150 +416,150 @@ img {
 const initialBody = `
   <header class="site-nav">
     <a class="brand-name" href="#">Northline Studio</a>
-    <nav class="nav-links" aria-label="Main">
-      <a href="#">Work</a>
-      <a href="#">Systems</a>
-      <a href="#">Contact</a>
+    <nav class="nav-links" aria-label="メイン">
+      <a href="#">実績</a>
+      <a href="#">仕組み</a>
+      <a href="#">問い合わせ</a>
     </nav>
   </header>
   <main>
     <section class="hero">
       <div>
-        <p class="eyebrow">Interface design</p>
+        <p class="eyebrow">インターフェースデザイン</p>
         <h1>Northline Studio</h1>
-        <p class="hero-copy">A compact launch page for teams shaping polished digital products with a clear voice and a calm visual system.</p>
+        <p class="hero-copy">洗練されたデジタルプロダクトを、明快な言葉と落ち着いたビジュアルで届けるためのコンパクトなランディングページです。</p>
         <div class="hero-actions">
-          <a class="cta-button" href="#">Start a project</a>
-          <a class="secondary-button" href="#">View work</a>
+          <a class="cta-button" href="#">相談する</a>
+          <a class="secondary-button" href="#">実績を見る</a>
         </div>
       </div>
       <figure class="hero-visual">
-        <img src="${sampleImage}" alt="Product interface preview">
+        <img src="${sampleImage}" alt="プロダクト画面のプレビュー">
       </figure>
     </section>
     <section class="feature-row">
       <div>
-        <p class="eyebrow">Built for teams</p>
-        <h2>Sharper launches for products that need a confident first impression.</h2>
-        <p>Brand systems, campaign pages, and product surfaces come together with a consistent rhythm from first sketch to release.</p>
+        <p class="eyebrow">チーム向け</p>
+        <h2>第一印象が大切なプロダクトに、迷いのない立ち上がりを。</h2>
+        <p>ブランドシステム、キャンペーンページ、プロダクト画面を、初期案から公開まで一貫したリズムで整えます。</p>
       </div>
       <div class="stat-tile">
         <strong>24h</strong>
-        <span>Prototype turnaround</span>
+        <span>プロトタイプ制作</span>
       </div>
     </section>
     <section class="content-grid">
       <article class="content-card">
-        <h3>Brand rhythm</h3>
-        <p>Reusable sections keep the page coherent across campaigns, launches, and product moments.</p>
+        <h3>ブランドの統一感</h3>
+        <p>再利用しやすいセクションで、キャンペーンや公開時の見た目を一貫させます。</p>
       </article>
       <article class="content-card">
-        <h3>Product clarity</h3>
-        <p>Messaging, visual hierarchy, and interaction states are shaped around the decisions users need to make.</p>
+        <h3>伝わる構成</h3>
+        <p>ユーザーが判断しやすいように、言葉、階層、操作状態を整理します。</p>
       </article>
       <article class="content-card">
-        <h3>Launch support</h3>
-        <p>Design direction stays practical enough for teams to carry into production without losing the intent.</p>
+        <h3>公開まで支援</h3>
+        <p>意図を失わず制作へ渡せる、実装しやすいデザイン方針に整えます。</p>
       </article>
     </section>
   </main>
   <footer class="site-footer">
     <strong>Northline Studio</strong>
-    <span>Design, systems, launch.</span>
+    <span>デザイン、仕組み、公開。</span>
   </footer>
 `;
 
 const blockDefinitions = [
   {
     type: "nav",
-    label: "Nav",
+    label: "ナビ",
     icon: "desktop",
     html: () => `
       <header class="site-nav">
-        <a class="brand-name" href="#">Studio Name</a>
-        <nav class="nav-links" aria-label="Main">
-          <a href="#">Work</a>
-          <a href="#">Services</a>
-          <a href="#">Contact</a>
+        <a class="brand-name" href="#">スタジオ名</a>
+        <nav class="nav-links" aria-label="メイン">
+          <a href="#">実績</a>
+          <a href="#">サービス</a>
+          <a href="#">問い合わせ</a>
         </nav>
       </header>
     `,
   },
   {
     type: "hero",
-    label: "Hero",
+    label: "ヒーロー",
     icon: "add",
     html: () => `
       <section class="hero">
         <div>
-          <p class="eyebrow">New section</p>
-          <h1>Make the page feel unmistakable.</h1>
-          <p class="hero-copy">Use this section as the opening moment for a product, service, or campaign.</p>
+          <p class="eyebrow">新しいセクション</p>
+          <h1>ページの第一印象を、はっきり整える。</h1>
+          <p class="hero-copy">プロダクト、サービス、キャンペーンの導入に使えるセクションです。</p>
           <div class="hero-actions">
-            <a class="cta-button" href="#">Primary action</a>
-            <a class="secondary-button" href="#">Secondary action</a>
+            <a class="cta-button" href="#">主なアクション</a>
+            <a class="secondary-button" href="#">詳しく見る</a>
           </div>
         </div>
         <figure class="hero-visual">
-          <img src="${sampleImage}" alt="Interface preview">
+          <img src="${sampleImage}" alt="インターフェースのプレビュー">
         </figure>
       </section>
     `,
   },
   {
     type: "feature",
-    label: "Feature",
+    label: "特徴",
     icon: "add",
     html: () => `
       <section class="feature-row">
         <div>
-          <p class="eyebrow">Feature</p>
-          <h2>A focused section with room for proof.</h2>
-          <p>Describe a benefit, workflow, or product detail with enough space to make the idea clear.</p>
+          <p class="eyebrow">特徴</p>
+          <h2>根拠まで伝えられる、焦点の合ったセクション。</h2>
+          <p>メリット、流れ、プロダクト詳細を、伝わる余白で説明できます。</p>
         </div>
         <div class="stat-tile">
           <strong>3x</strong>
-          <span>Faster decision cycles</span>
+          <span>意思決定を短縮</span>
         </div>
       </section>
     `,
   },
   {
     type: "card",
-    label: "Card",
+    label: "カード",
     icon: "copy",
     html: () => `
       <article class="content-card">
-        <h3>New card</h3>
-        <p>Add a concise proof point, service detail, or content teaser.</p>
+        <h3>新しいカード</h3>
+        <p>実績、サービス詳細、コンテンツの要点を短く追加します。</p>
       </article>
     `,
   },
   {
     type: "button",
-    label: "Button",
+    label: "ボタン",
     icon: "add",
-    html: () => `<a class="cta-button" href="#">New action</a>`,
+    html: () => `<a class="cta-button" href="#">新しいアクション</a>`,
   },
   {
     type: "image",
-    label: "Image",
+    label: "画像",
     icon: "import",
     html: () => `
       <figure class="image-panel">
-        <img src="${sampleImage}" alt="Preview image">
-        <figcaption>Preview image</figcaption>
+        <img src="${sampleImage}" alt="プレビュー画像">
+        <figcaption>プレビュー画像</figcaption>
       </figure>
     `,
   },
   {
     type: "footer",
-    label: "Footer",
+    label: "フッター",
     icon: "down",
     html: () => `
       <footer class="site-footer">
-        <strong>Studio Name</strong>
-        <span>Made for the web.</span>
+        <strong>スタジオ名</strong>
+        <span>Webのために制作。</span>
       </footer>
     `,
   },
@@ -573,7 +573,7 @@ const responsiveEnd = "/* Web Upper responsive overrides:end */";
 const palettes = [
   {
     id: "studio",
-    label: "Studio",
+    label: "スタジオ",
     colors: {
       ink: "#17211f",
       muted: "#5f6d68",
@@ -589,7 +589,7 @@ const palettes = [
   },
   {
     id: "signal",
-    label: "Signal",
+    label: "シグナル",
     colors: {
       ink: "#141821",
       muted: "#596271",
@@ -605,7 +605,7 @@ const palettes = [
   },
   {
     id: "coral",
-    label: "Coral",
+    label: "コーラル",
     colors: {
       ink: "#241b1b",
       muted: "#6e5e5b",
@@ -621,7 +621,7 @@ const palettes = [
   },
   {
     id: "graphite",
-    label: "Graphite",
+    label: "グラファイト",
     colors: {
       ink: "#121417",
       muted: "#5d6670",
@@ -714,7 +714,7 @@ const designState = {
 let currentCss = pageCss;
 let currentHeadExtras = "";
 let currentSourceUrl = "";
-let currentPageTitle = "Edited Page";
+let currentPageTitle = "編集済みページ";
 let currentBeforeBody = initialBody;
 let currentBeforeCss = pageCss;
 let selectedId = "body";
@@ -781,7 +781,7 @@ function frameSource(bodyHtml, cssText, options = {}) {
   `;
 
   return `<!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1028,7 +1028,7 @@ function refreshInspector() {
   const element = getSelectedElement();
   fillingInspector = true;
 
-  const label = element ? describeElement(element) : "Body";
+  const label = element ? describeElement(element) : "本文";
   selectedBadge.textContent = label;
   currentTarget.textContent = label;
 
@@ -1494,10 +1494,10 @@ function applyDesignSystem({ commitNow = false } = {}) {
 
 function describeElement(element) {
   if (!element) {
-    return "Body";
+    return "本文";
   }
   if (element.tagName === "BODY") {
-    return "Body";
+    return "本文";
   }
   const tag = element.tagName.toLowerCase();
   const className = Array.from(element.classList).find((name) => !editorClassNames.includes(name));
@@ -1538,7 +1538,7 @@ function renderSelectionPath(element) {
     if ((item.dataset.editId || "body") === selectedId) {
       button.classList.add("is-current");
     }
-    button.textContent = item.tagName === "BODY" ? "body" : describeElement(item);
+    button.textContent = item.tagName === "BODY" ? "本文" : describeElement(item);
     button.title = describeElement(item);
     button.addEventListener("click", () => selectElement(item.dataset.editId || "body"));
     selectionPath.appendChild(button);
@@ -1623,7 +1623,7 @@ function updateContrastMeter() {
     designControls.contrastScore.textContent = "--";
     designControls.contrastFill.style.width = "0%";
     designControls.contrastFill.style.background = "var(--danger)";
-    designControls.contrastHint.textContent = "Select text to check readability.";
+    designControls.contrastHint.textContent = "テキストを選択すると読みやすさを確認できます。";
     designControls.fixContrast.disabled = true;
     return;
   }
@@ -1643,10 +1643,10 @@ function updateContrastMeter() {
   designControls.contrastFill.style.width = `${Math.min(100, (ratio / 7) * 100)}%`;
   designControls.contrastFill.style.background = passesAAA ? "#0d967a" : passesAA ? "#d7a63f" : "var(--danger)";
   designControls.contrastHint.textContent = passesAAA
-    ? "Excellent readability."
+    ? "とても読みやすいコントラストです。"
     : passesAA
-      ? "Readable, with room to improve."
-      : "Low contrast. Use Contrast to fix it.";
+      ? "読めますが、さらに改善できます。"
+      : "コントラストが低めです。コントラスト補正を使ってください。";
   designControls.fixContrast.disabled = false;
 }
 
@@ -1835,7 +1835,7 @@ function restoreSnapshot(index) {
   currentCss = snapshot.css;
   currentHeadExtras = snapshot.headExtras || "";
   currentSourceUrl = snapshot.sourceUrl || "";
-  currentPageTitle = snapshot.pageTitle || "Edited Page";
+  currentPageTitle = snapshot.pageTitle || "編集済みページ";
   currentBeforeBody = snapshot.beforeBody || snapshot.body;
   currentBeforeCss = snapshot.beforeCss || snapshot.css;
   responsiveOverrides = snapshot.responsiveOverrides || {};
@@ -1877,9 +1877,9 @@ function saveProject(manual = false) {
       hour: "2-digit",
       minute: "2-digit",
     });
-    setAutosaveStatus(`${manual ? "Saved" : "Autosaved"} ${time}`);
+    setAutosaveStatus(`${manual ? "保存済み" : "自動保存"} ${time}`);
   } catch (error) {
-    setAutosaveStatus("Save failed");
+    setAutosaveStatus("保存に失敗しました");
     console.warn(error);
   }
 }
@@ -1891,7 +1891,7 @@ function scheduleAutosave() {
 
 function applyProjectData(data) {
   if (!data || !data.body || !data.css) {
-    setAutosaveStatus("No saved project");
+    setAutosaveStatus("保存済みプロジェクトがありません");
     return;
   }
 
@@ -1900,7 +1900,7 @@ function applyProjectData(data) {
   currentCss = data.css;
   currentHeadExtras = data.headExtras || "";
   currentSourceUrl = data.sourceUrl || "";
-  currentPageTitle = data.pageTitle || "Edited Page";
+  currentPageTitle = data.pageTitle || "編集済みページ";
   currentBeforeBody = data.beforeBody || data.body;
   currentBeforeCss = data.beforeCss || data.css;
   responsiveOverrides = data.responsiveOverrides || {};
@@ -1910,7 +1910,7 @@ function applyProjectData(data) {
   renderBeforeFrame(currentBeforeBody, currentBeforeCss);
   renderFrame(data.body, currentCss, () => {
     commitChange();
-    setAutosaveStatus("Restored");
+    setAutosaveStatus("復元しました");
   });
 }
 
@@ -1918,24 +1918,24 @@ function restoreProject() {
   try {
     const stored = localStorage.getItem(projectStorageKey);
     if (!stored) {
-      setAutosaveStatus("No saved project");
+      setAutosaveStatus("保存済みプロジェクトがありません");
       return;
     }
     applyProjectData(JSON.parse(stored));
   } catch (error) {
-    setAutosaveStatus("Restore failed");
+    setAutosaveStatus("復元に失敗しました");
     console.warn(error);
   }
 }
 
 function newProject() {
-  if (!window.confirm("Start a new project?")) {
+  if (!window.confirm("新しいプロジェクトを開始しますか？")) {
     return;
   }
   currentCss = pageCss;
   currentHeadExtras = "";
   currentSourceUrl = "";
-  currentPageTitle = "Edited Page";
+  currentPageTitle = "編集済みページ";
   currentBeforeBody = initialBody;
   currentBeforeCss = pageCss;
   responsiveOverrides = {};
@@ -1951,12 +1951,12 @@ function newProject() {
   });
   syncDesignControls();
   siteUrlInput.value = "";
-  setUrlStatus("Ready");
+  setUrlStatus("準備完了");
   renderBeforeFrame(currentBeforeBody, currentBeforeCss);
   renderFrame(initialBody, currentCss, () => {
     commitChange();
     setPreviewMode("after");
-    setAutosaveStatus("New project");
+    setAutosaveStatus("新規プロジェクトを作成しました");
   });
 }
 
@@ -1978,7 +1978,7 @@ function refreshSnapshotSelect() {
   if (!snapshots.length) {
     const option = document.createElement("option");
     option.value = "";
-    option.textContent = "No snapshots";
+    option.textContent = "スナップショットなし";
     snapshotSelect.appendChild(option);
     return;
   }
@@ -1992,7 +1992,7 @@ function refreshSnapshotSelect() {
 
 function saveSnapshot() {
   const now = new Date();
-  const name = snapshotNameInput.value.trim() || `Snapshot ${now.toLocaleString([], {
+  const name = snapshotNameInput.value.trim() || `スナップショット ${now.toLocaleString([], {
     month: "short",
     day: "numeric",
     hour: "2-digit",
@@ -2007,25 +2007,25 @@ function saveSnapshot() {
   writeSnapshots(snapshots);
   snapshotNameInput.value = "";
   refreshSnapshotSelect();
-  setAutosaveStatus("Snapshot saved");
+  setAutosaveStatus("スナップショットを保存しました");
 }
 
 function loadSnapshot() {
   const id = snapshotSelect.value;
   const snapshot = readSnapshots().find((item) => item.id === id);
   if (!snapshot) {
-    setAutosaveStatus("No snapshot selected");
+    setAutosaveStatus("スナップショットが選択されていません");
     return;
   }
   applyProjectData(snapshot.data);
-  setAutosaveStatus(`Loaded ${snapshot.name}`);
+  setAutosaveStatus(`${snapshot.name} を読み込みました`);
 }
 
 function sampleBody(name, eyebrow, headline, copy) {
   return initialBody
     .replaceAll("Northline Studio", name)
-    .replace("Interface design", eyebrow)
-    .replace("A compact launch page for teams shaping polished digital products with a clear voice and a calm visual system.", copy)
+    .replace("インターフェースデザイン", eyebrow)
+    .replace("洗練されたデジタルプロダクトを、明快な言葉と落ち着いたビジュアルで届けるためのコンパクトなランディングページです。", copy)
     .replace("<h1>Northline Studio</h1>", `<h1>${headline}</h1>`);
 }
 
@@ -2039,22 +2039,22 @@ function loadDemoSample() {
     saas: {
       title: "SignalDesk",
       industry: "saas",
-      body: sampleBody("SignalDesk", "SaaS platform", "SignalDesk", "A focused product page for teams turning customer signals into sharper decisions."),
+      body: sampleBody("SignalDesk", "SaaSプラットフォーム", "SignalDesk", "顧客の反応をチームの意思決定へつなげる、焦点の合ったプロダクトページです。"),
     },
     restaurant: {
       title: "Mori Table",
       industry: "restaurant",
-      body: sampleBody("Mori Table", "Seasonal dining", "Mori Table", "A warm restaurant page for reservations, menus, and a memorable first impression."),
+      body: sampleBody("Mori Table", "季節のダイニング", "Mori Table", "予約、メニュー、印象に残る第一印象を届ける、あたたかいレストランページです。"),
     },
     portfolio: {
       title: "Aya Works",
       industry: "portfolio",
-      body: sampleBody("Aya Works", "Portfolio", "Aya Works", "A polished portfolio page for selected work, services, and direct inquiries."),
+      body: sampleBody("Aya Works", "ポートフォリオ", "Aya Works", "厳選した実績、サービス、問い合わせ導線を整えたポートフォリオページです。"),
     },
     ecommerce: {
       title: "North Goods",
       industry: "ecommerce",
-      body: sampleBody("North Goods", "Online store", "North Goods", "A compact commerce page for showcasing products and guiding visitors toward purchase."),
+      body: sampleBody("North Goods", "オンラインストア", "North Goods", "商品を魅力的に見せ、購入まで自然に案内するコマースページです。"),
     },
   };
 
@@ -2075,7 +2075,7 @@ function loadDemoSample() {
     applyIndustryPolish();
     applyDesignSystem({ commitNow: true });
     setPreviewMode("after");
-    setAutosaveStatus("Demo loaded");
+    setAutosaveStatus("デモを読み込みました");
   });
 }
 
@@ -2140,7 +2140,7 @@ function setSelectedImageLazy() {
   }
   element.setAttribute("loading", "lazy");
   element.setAttribute("decoding", "async");
-  setAutosaveStatus("Image set to lazy");
+  setAutosaveStatus("画像を遅延読込にしました");
   commitChange();
 }
 
@@ -2162,14 +2162,14 @@ function compressSelectedImage() {
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
       element.src = canvas.toDataURL("image/webp", 0.82);
       element.setAttribute("decoding", "async");
-      setAutosaveStatus("Image compressed");
+      setAutosaveStatus("画像を圧縮しました");
       commitChange();
     } catch (error) {
-      setAutosaveStatus("Compression blocked");
+      setAutosaveStatus("画像圧縮がブロックされました");
       console.warn(error);
     }
   };
-  image.onerror = () => setAutosaveStatus("Image load failed");
+  image.onerror = () => setAutosaveStatus("画像を読み込めませんでした");
   image.src = element.currentSrc || element.src;
 }
 
@@ -2326,7 +2326,7 @@ function copySelectedStyle() {
     return;
   }
   styleClipboard = element.getAttribute("style") || styleStringFromComputed(element);
-  setAutosaveStatus("Style copied");
+  setAutosaveStatus("スタイルをコピーしました");
   refreshInspector();
 }
 
@@ -2641,18 +2641,18 @@ async function fetchSitePayload(normalizedUrl) {
       lastError = error;
     }
   }
-  throw lastError || new Error("Failed to load URL");
+  throw lastError || new Error("URLの読み込みに失敗しました");
 }
 
 async function loadSiteFromUrl(rawUrl) {
   const normalized = normalizeUrl(rawUrl);
   if (!normalized) {
-    setUrlStatus("Enter a URL");
+    setUrlStatus("URLを入力してください");
     return;
   }
 
   loadUrlBtn.disabled = true;
-  setUrlStatus("Loading...");
+  setUrlStatus("読み込み中...");
   beforeFrame.removeAttribute("srcdoc");
   beforeFrame.src = normalized;
 
@@ -2669,7 +2669,7 @@ async function loadSiteFromUrl(rawUrl) {
 
     const bodyHtml = parsed.body.innerHTML.trim();
     if (!bodyHtml) {
-      throw new Error("No body content found");
+      throw new Error("本文コンテンツが見つかりません");
     }
 
     currentSourceUrl = finalUrl;
@@ -2686,10 +2686,10 @@ async function loadSiteFromUrl(rawUrl) {
     renderFrame(bodyHtml, currentCss, () => {
       commitChange();
       setPreviewMode("split");
-      setUrlStatus(payload.captureMode || "Loaded");
+      setUrlStatus(payload.captureMode === "Rendered" ? "描画後HTMLを取得" : payload.captureMode === "Fetched" ? "HTMLを取得" : "読み込み完了");
     });
   } catch (error) {
-    setUrlStatus("Preview only");
+    setUrlStatus("プレビューのみ");
     showImportFallback(normalized, error);
   } finally {
     loadUrlBtn.disabled = false;
@@ -2700,17 +2700,17 @@ function showImportFallback(url, error) {
   const message = `
     <main style="min-height:720px;display:grid;place-items:center;padding:44px;background:#f6f8f7;color:#17211f;font-family:ui-sans-serif,system-ui;">
       <section style="max-width:640px;padding:28px;border:1px solid #dfe7e3;border-radius:8px;background:#fff;">
-        <p style="margin:0 0 10px;color:#0d967a;font-weight:800;text-transform:uppercase;font-size:12px;">Preview loaded</p>
-        <h1 style="margin:0 0 14px;font-size:34px;line-height:1.1;">This URL can be shown as Before, but cannot be imported yet.</h1>
-        <p style="margin:0;color:#5f6d68;line-height:1.65;">Run the local server and load the page from localhost, or paste the site's HTML/CSS with Import. Browser security can block direct editing of external pages.</p>
-        <p style="margin:18px 0 0;color:#8a4a4a;font-size:13px;">${escapeHtml(error?.message || "Import failed")}</p>
-        <a href="${escapeAttribute(url)}" style="display:inline-flex;margin-top:18px;color:#0d967a;font-weight:800;">Open source URL</a>
+        <p style="margin:0 0 10px;color:#0d967a;font-weight:800;text-transform:uppercase;font-size:12px;">プレビューを読み込みました</p>
+        <h1 style="margin:0 0 14px;font-size:34px;line-height:1.1;">このURLは変更前プレビューとして表示できますが、まだ編集用に取り込めません。</h1>
+        <p style="margin:0;color:#5f6d68;line-height:1.65;">ローカルサーバーから読み込むか、HTML/CSS取込を使ってください。ブラウザの安全制限により、外部ページを直接編集できない場合があります。</p>
+        <p style="margin:18px 0 0;color:#8a4a4a;font-size:13px;">${escapeHtml(error?.message || "取込に失敗しました")}</p>
+        <a href="${escapeAttribute(url)}" style="display:inline-flex;margin-top:18px;color:#0d967a;font-weight:800;">元URLを開く</a>
       </section>
     </main>
   `;
   currentHeadExtras = "";
   currentSourceUrl = url;
-  currentPageTitle = "Preview only";
+  currentPageTitle = "プレビューのみ";
   currentCss = "";
   currentBeforeBody = message;
   currentBeforeCss = "";
@@ -2747,7 +2747,7 @@ function exportBodyHtml() {
 function exportDocument() {
   const bodyHtml = exportBodyHtml();
   return `<!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -2791,7 +2791,7 @@ function inlineOverrideCss() {
 
 function generateCssDiff() {
   const sections = [];
-  const source = currentSourceUrl ? `/* Source: ${currentSourceUrl} */` : "/* Source: local draft */";
+  const source = currentSourceUrl ? `/* 元URL: ${currentSourceUrl} */` : "/* 元: ローカル下書き */";
   sections.push(source);
 
   const directDiff = currentBeforeCss && currentCss.startsWith(currentBeforeCss)
@@ -2812,11 +2812,11 @@ function generateCssDiff() {
 
   const inlineCss = inlineOverrideCss();
   if (inlineCss) {
-    sections.push(`/* Inline style overrides */\n${inlineCss}`);
+    sections.push(`/* インラインスタイルの上書き */\n${inlineCss}`);
   }
 
   if (sections.length === 1) {
-    sections.push("/* No CSS-only changes detected yet. */");
+    sections.push("/* CSSだけで表現できる変更はまだ検出されていません。 */");
   }
   return sections.join("\n\n");
 }
@@ -2825,7 +2825,7 @@ function generateWordPressCss() {
   return `/*
 Theme: Web Upper overrides
 Source: ${currentSourceUrl || "local draft"}
-Paste this into Appearance > Customize > Additional CSS.
+WordPressの「外観 > カスタマイズ > 追加CSS」へ貼り付けてください。
 */
 
 ${generateCssDiff()}`;
@@ -2833,7 +2833,7 @@ ${generateCssDiff()}`;
 
 function generateShopifySection() {
   return `{% comment %}
-Generated by Web Upper. Add this as a custom Shopify section, then move CSS into theme assets if needed.
+Web Upperで生成しました。Shopifyのカスタムセクションとして追加し、必要に応じてCSSをテーマアセットへ移してください。
 {% endcomment %}
 
 <section class="web-upper-section">
@@ -2891,7 +2891,7 @@ function importDocument() {
   currentCss = nextCss;
   currentHeadExtras = "";
   currentSourceUrl = "";
-  currentPageTitle = parsed.title || "Imported Page";
+  currentPageTitle = parsed.title || "取り込みページ";
   currentBeforeBody = nextBody;
   currentBeforeCss = nextCss;
   responsiveOverrides = {};
@@ -2967,7 +2967,7 @@ function updateHeadMeta({ title, description, ogImage }) {
   const parser = new DOMParser();
   const parsed = parser.parseFromString(`<head>${currentHeadExtras}</head>`, "text/html");
   const head = parsed.head;
-  currentPageTitle = title.trim() || currentPageTitle || "Edited Page";
+  currentPageTitle = title.trim() || currentPageTitle || "編集済みページ";
   setMetaElement(head, "name", "description", description.trim());
   setMetaElement(head, "property", "og:title", currentPageTitle);
   setMetaElement(head, "property", "og:description", description.trim());
@@ -2989,8 +2989,8 @@ function openMetaEditor() {
 }
 
 function updateOgPreview() {
-  ogPreviewTitle.textContent = metaTitleInput.value.trim() || "Page title";
-  ogPreviewDescription.textContent = metaDescriptionInput.value.trim() || "Description preview";
+  ogPreviewTitle.textContent = metaTitleInput.value.trim() || "ページタイトル";
+  ogPreviewDescription.textContent = metaDescriptionInput.value.trim() || "説明文プレビュー";
   const image = metaOgImageInput.value.trim();
   ogPreviewImage.style.backgroundImage = image ? `url("${image.replaceAll('"', "%22")}")` : "";
 }
@@ -3006,7 +3006,7 @@ function applyMetaEditor() {
     doc.title = currentPageTitle;
   }
   commitChange();
-  setAutosaveStatus("Meta updated");
+  setAutosaveStatus("メタ情報を更新しました");
   metaDialog.close();
 }
 
@@ -3042,80 +3042,80 @@ function runPageAudit() {
   const missingAlt = images.filter((image) => !(image.getAttribute("alt") || "").trim());
   if (missingAlt.length) {
     penalize(8);
-    addAuditIssue(issues, "Accessibility", `${missingAlt.length} image alt issue${missingAlt.length > 1 ? "s" : ""}`, "Images without alt text are harder to understand and reuse.");
+    addAuditIssue(issues, "アクセシビリティ", `画像説明がない画像が${missingAlt.length}件あります`, "altテキストがない画像は、内容の理解や再利用が難しくなります。");
   }
 
   const emptyActions = actions.filter((element) => element.textContent.trim().length === 0);
   if (emptyActions.length) {
     penalize(8);
-    addAuditIssue(issues, "Accessibility", `${emptyActions.length} empty action label${emptyActions.length > 1 ? "s" : ""}`, "Links and buttons need readable labels for users and assistive tools.");
+    addAuditIssue(issues, "アクセシビリティ", `ラベルのない操作要素が${emptyActions.length}件あります`, "リンクやボタンには、ユーザーと支援技術が読めるラベルが必要です。");
   }
 
   if (headings.length && headings[0].tagName !== "H1") {
     penalize(5);
-    addAuditIssue(issues, "Structure", "First heading is not H1", "A clear H1 gives the page a stronger content hierarchy.");
+    addAuditIssue(issues, "構造", "最初の見出しがH1ではありません", "明確なH1があると、ページの情報階層が強くなります。");
   }
 
   const h1Count = headings.filter((heading) => heading.tagName === "H1").length;
   if (h1Count > 1) {
     penalize(5);
-    addAuditIssue(issues, "Structure", `${h1Count} H1 headings found`, "Multiple H1 headings can make the page structure feel less deliberate.");
+    addAuditIssue(issues, "構造", `H1見出しが${h1Count}件あります`, "H1が複数あると、ページ構造の意図が伝わりにくくなる場合があります。");
   }
 
   if (emptyTextBlocks.length) {
     penalize(4);
-    addAuditIssue(issues, "Cleanup", `${emptyTextBlocks.length} empty text element${emptyTextBlocks.length > 1 ? "s" : ""}`, "Empty text elements often create stray spacing or confusing layers.");
+    addAuditIssue(issues, "整理", `空のテキスト要素が${emptyTextBlocks.length}件あります`, "空要素は余分な余白や分かりにくいレイヤーの原因になります。");
   }
 
-  if (!currentPageTitle || currentPageTitle === "Edited Page") {
+  if (!currentPageTitle || currentPageTitle === "編集済みページ") {
     penalize(6);
-    addAuditIssue(issues, "SEO", "Page title needs attention", "Set a specific title before publishing or handing off.");
+    addAuditIssue(issues, "SEO", "ページタイトルを設定してください", "公開や受け渡し前に、具体的なタイトルへ変更してください。");
   } else if (currentPageTitle.length > 62) {
     penalize(3);
-    addAuditIssue(issues, "SEO", "Page title is long", "Titles over roughly 60 characters can truncate in search results.");
+    addAuditIssue(issues, "SEO", "ページタイトルが長めです", "60文字前後を超えるタイトルは検索結果で省略されることがあります。");
   }
 
   if (!description) {
     penalize(6);
-    addAuditIssue(issues, "SEO", "Missing meta description", "A short description improves search and sharing previews.");
+    addAuditIssue(issues, "SEO", "メタ説明文がありません", "短い説明文があると、検索結果や共有プレビューが分かりやすくなります。");
   } else if (description.length < 80 || description.length > 170) {
     penalize(3);
-    addAuditIssue(issues, "SEO", "Meta description length is uneven", "Aim for a concise 80-170 character summary.");
+    addAuditIssue(issues, "SEO", "メタ説明文の長さを調整できます", "80〜170文字程度の要約を目安にしてください。");
   }
 
   if (!ogTitle || !ogDescription || !ogImage) {
     penalize(5);
-    addAuditIssue(issues, "OGP", "Social preview is incomplete", "Add og:title, og:description, and og:image for cleaner link previews.");
+    addAuditIssue(issues, "OGP", "SNS共有プレビューが未完成です", "og:title、og:description、og:image を設定すると共有時の見え方が整います。");
   }
 
   const largeImages = images.filter((image) => image.naturalWidth > 2200 || image.naturalHeight > 1600);
   if (largeImages.length) {
     penalize(5);
-    addAuditIssue(issues, "Performance", `${largeImages.length} oversized image${largeImages.length > 1 ? "s" : ""}`, "Very large images can slow down previews and first load.");
+    addAuditIssue(issues, "パフォーマンス", `大きすぎる画像が${largeImages.length}件あります`, "大きな画像はプレビューや初回表示を遅くすることがあります。");
   }
 
   const eagerImages = images.filter((image, index) => index > 0 && image.getAttribute("loading") !== "lazy");
   if (eagerImages.length > 2) {
     penalize(3);
-    addAuditIssue(issues, "Performance", "Most images load eagerly", "Add loading=\"lazy\" to non-critical images.");
+    addAuditIssue(issues, "パフォーマンス", "多くの画像が即時読み込みです", "重要でない画像には loading=\"lazy\" を追加すると軽くなります。");
   }
 
   const nodeCount = doc.body.querySelectorAll("*").length;
   if (nodeCount > 900) {
     penalize(4);
-    addAuditIssue(issues, "Performance", "Large DOM tree", "A very large DOM can make editing and runtime performance slower.");
+    addAuditIssue(issues, "パフォーマンス", "DOMが大きめです", "DOMが大きすぎると編集や表示のパフォーマンスが落ちる場合があります。");
   }
 
   const inlineStyleCount = doc.body.querySelectorAll("[style]").length;
   if (inlineStyleCount > 80) {
     penalize(3);
-    addAuditIssue(issues, "Maintainability", "Many inline styles", "Consider exporting CSS diff and consolidating repeated styles.");
+    addAuditIssue(issues, "保守性", "インラインスタイルが多めです", "CSS差分を書き出して、重複スタイルを整理することを検討してください。");
   }
 
   const ctaCount = actions.filter((element) => /start|buy|contact|book|get|try|request|learn|view|download/i.test(element.textContent)).length;
   if (ctaCount === 0) {
     penalize(5);
-    addAuditIssue(issues, "Design", "No clear CTA detected", "A primary action helps users understand the next step.");
+    addAuditIssue(issues, "デザイン", "明確なCTAが見つかりません", "主なアクションがあると、ユーザーが次に何をすればよいか分かりやすくなります。");
   }
 
   const lowContrast = textBlocks.slice(0, 120).filter((element) => {
@@ -3126,19 +3126,19 @@ function runPageAudit() {
   });
   if (lowContrast.length) {
     penalize(8);
-    addAuditIssue(issues, "Design", `${lowContrast.length} low contrast text block${lowContrast.length > 1 ? "s" : ""}`, "Improve foreground/background contrast for readability.");
+    addAuditIssue(issues, "デザイン", `コントラストが低いテキストが${lowContrast.length}件あります`, "文字色と背景色のコントラストを上げると読みやすくなります。");
   }
 
   auditResults.textContent = "";
   const scoreItem = document.createElement("div");
   scoreItem.className = `audit-score ${score >= 86 ? "good" : score >= 70 ? "warn" : "bad"}`;
-  scoreItem.innerHTML = `<strong>${score}</strong><span>Overall quick score</span>`;
+  scoreItem.innerHTML = `<strong>${score}</strong><span>クイックスコア</span>`;
   auditResults.appendChild(scoreItem);
 
   if (!issues.length) {
     const item = document.createElement("div");
     item.className = "audit-item good";
-    item.innerHTML = "<strong>No obvious issues found</strong><span>The current page passes the quick structural checks.</span>";
+    item.innerHTML = "<strong>目立つ問題は見つかりませんでした</strong><span>現在のページは簡易チェックを通過しています。</span>";
     auditResults.appendChild(item);
   } else {
     for (const issue of issues) {
@@ -3161,9 +3161,9 @@ function setViewport(mode) {
     button.classList.toggle("is-active", button.dataset.viewport === mode);
   }
   const labels = {
-    desktop: "Desktop 1280",
-    tablet: "Tablet 768",
-    phone: "Phone 390",
+    desktop: "デスクトップ 1280",
+    tablet: "タブレット 768",
+    phone: "スマホ 390",
   };
   viewportLabel.textContent = labels[mode];
   resizePreview();

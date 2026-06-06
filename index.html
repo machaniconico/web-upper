@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Web Upper UI Editor</title>
+    <title>Web Upper UI編集ツール</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -64,110 +64,110 @@
           <span class="brand-mark">WU</span>
           <div class="brand-copy">
             <strong>Web Upper</strong>
-            <span>UI Editor</span>
+            <span>UI編集ツール</span>
           </div>
         </div>
 
         <form class="url-loader" id="urlLoader">
-          <input id="siteUrlInput" type="url" placeholder="https://example.com" aria-label="Site URL">
+          <input id="siteUrlInput" type="url" placeholder="https://example.com" aria-label="サイトURL">
           <button class="text-button primary" id="loadUrlBtn" type="submit">
             <svg class="icon"><use href="#i-import"></use></svg>
-            <span>Load</span>
+            <span>読込</span>
           </button>
-          <span id="urlStatus">Ready</span>
+          <span id="urlStatus">準備完了</span>
         </form>
 
-        <div class="toolbar" role="toolbar" aria-label="Editor actions">
-          <button class="icon-button" id="undoBtn" type="button" title="Undo" aria-label="Undo">
+        <div class="toolbar" role="toolbar" aria-label="エディタ操作">
+          <button class="icon-button" id="undoBtn" type="button" title="元に戻す" aria-label="元に戻す">
             <svg class="icon"><use href="#i-undo"></use></svg>
           </button>
-          <button class="icon-button" id="redoBtn" type="button" title="Redo" aria-label="Redo">
+          <button class="icon-button" id="redoBtn" type="button" title="やり直す" aria-label="やり直す">
             <svg class="icon"><use href="#i-redo"></use></svg>
           </button>
-          <div class="segmented" aria-label="Viewport">
-            <button class="icon-button is-active" type="button" data-viewport="desktop" title="Desktop" aria-label="Desktop">
+          <div class="segmented" aria-label="表示サイズ">
+            <button class="icon-button is-active" type="button" data-viewport="desktop" title="デスクトップ" aria-label="デスクトップ">
               <svg class="icon"><use href="#i-desktop"></use></svg>
             </button>
-            <button class="icon-button" type="button" data-viewport="tablet" title="Tablet" aria-label="Tablet">
+            <button class="icon-button" type="button" data-viewport="tablet" title="タブレット" aria-label="タブレット">
               <svg class="icon"><use href="#i-tablet"></use></svg>
             </button>
-            <button class="icon-button" type="button" data-viewport="phone" title="Phone" aria-label="Phone">
+            <button class="icon-button" type="button" data-viewport="phone" title="スマホ" aria-label="スマホ">
               <svg class="icon"><use href="#i-phone"></use></svg>
             </button>
           </div>
           <button class="text-button" id="importBtn" type="button">
             <svg class="icon"><use href="#i-import"></use></svg>
-            <span>Import</span>
+            <span>取込</span>
           </button>
           <button class="text-button primary" id="exportBtn" type="button">
             <svg class="icon"><use href="#i-export"></use></svg>
-            <span>Export</span>
+            <span>書出</span>
           </button>
         </div>
       </header>
 
       <main class="workspace">
-        <aside class="side-panel left-panel" aria-label="Blocks and layers">
+        <aside class="side-panel left-panel" aria-label="ブロックとレイヤー">
           <section class="panel-section project-section">
-            <h2>Project</h2>
+            <h2>プロジェクト</h2>
             <div class="project-actions">
               <button class="text-button wide" id="saveProjectBtn" type="button">
                 <svg class="icon"><use href="#i-export"></use></svg>
-                <span>Save</span>
+                <span>保存</span>
               </button>
               <button class="text-button wide" id="restoreProjectBtn" type="button">
                 <svg class="icon"><use href="#i-import"></use></svg>
-                <span>Restore</span>
+                <span>復元</span>
               </button>
               <button class="text-button wide" id="newProjectBtn" type="button">
                 <svg class="icon"><use href="#i-add"></use></svg>
-                <span>New</span>
+                <span>新規</span>
               </button>
             </div>
-            <span class="autosave-status" id="autosaveStatus">Autosave ready</span>
+            <span class="autosave-status" id="autosaveStatus">自動保存準備完了</span>
             <label class="field">
-              <span>Snapshot Name</span>
-              <input id="snapshotNameInput" type="text" placeholder="Homepage polish">
+              <span>スナップショット名</span>
+              <input id="snapshotNameInput" type="text" placeholder="トップページ調整">
             </label>
             <div class="snapshot-row">
-              <select id="snapshotSelect" aria-label="Saved snapshots"></select>
-              <button class="icon-button" id="saveSnapshotBtn" type="button" title="Save snapshot" aria-label="Save snapshot">
+              <select id="snapshotSelect" aria-label="保存済みスナップショット"></select>
+              <button class="icon-button" id="saveSnapshotBtn" type="button" title="スナップショットを保存" aria-label="スナップショットを保存">
                 <svg class="icon"><use href="#i-add"></use></svg>
               </button>
-              <button class="icon-button" id="loadSnapshotBtn" type="button" title="Load snapshot" aria-label="Load snapshot">
+              <button class="icon-button" id="loadSnapshotBtn" type="button" title="スナップショットを読込" aria-label="スナップショットを読込">
                 <svg class="icon"><use href="#i-import"></use></svg>
               </button>
             </div>
             <label class="field">
-              <span>Demo Sample</span>
+              <span>デモサンプル</span>
               <select id="demoSampleInput">
-                <option value="studio">Studio</option>
+                <option value="studio">スタジオ</option>
                 <option value="saas">SaaS</option>
-                <option value="restaurant">Restaurant</option>
-                <option value="portfolio">Portfolio</option>
-                <option value="ecommerce">E-commerce</option>
+                <option value="restaurant">レストラン</option>
+                <option value="portfolio">ポートフォリオ</option>
+                <option value="ecommerce">EC</option>
               </select>
             </label>
-            <button class="text-button wide" id="loadDemoBtn" type="button">Load Demo</button>
+            <button class="text-button wide" id="loadDemoBtn" type="button">デモを読込</button>
           </section>
           <section class="panel-section">
-            <h2>Blocks</h2>
+            <h2>ブロック</h2>
             <div class="block-grid" id="blockGrid"></div>
           </section>
           <section class="panel-section design-section">
-            <h2>Design Lab</h2>
+            <h2>デザイン調整</h2>
             <div class="design-actions">
               <button class="text-button wide" id="autoPolishBtn" type="button">
                 <svg class="icon"><use href="#i-add"></use></svg>
-                <span>Polish</span>
+                <span>仕上げ</span>
               </button>
               <button class="text-button wide" id="fixContrastBtn" type="button">
                 <svg class="icon"><use href="#i-copy"></use></svg>
-                <span>Contrast</span>
+                <span>コントラスト</span>
               </button>
               <button class="text-button wide" id="auditBtn" type="button">
                 <svg class="icon"><use href="#i-copy"></use></svg>
-                <span>Audit</span>
+                <span>診断</span>
               </button>
               <button class="text-button wide" id="cssEditorBtn" type="button">
                 <svg class="icon"><use href="#i-copy"></use></svg>
@@ -175,228 +175,228 @@
               </button>
               <button class="text-button wide" id="metaEditorBtn" type="button">
                 <svg class="icon"><use href="#i-copy"></use></svg>
-                <span>Meta</span>
+                <span>メタ</span>
               </button>
             </div>
             <label class="field">
-              <span>Industry Polish</span>
+              <span>業種別仕上げ</span>
               <select id="industryPresetInput">
                 <option value="saas">SaaS</option>
-                <option value="ecommerce">E-commerce</option>
-                <option value="portfolio">Portfolio</option>
-                <option value="restaurant">Restaurant</option>
-                <option value="clinic">Clinic</option>
-                <option value="app">Mobile app</option>
+                <option value="ecommerce">EC</option>
+                <option value="portfolio">ポートフォリオ</option>
+                <option value="restaurant">レストラン</option>
+                <option value="clinic">クリニック</option>
+                <option value="app">モバイルアプリ</option>
               </select>
             </label>
             <div class="design-group">
-              <span class="design-label">Palette</span>
+              <span class="design-label">配色</span>
               <div class="palette-grid" id="paletteGrid"></div>
             </div>
             <label class="field">
-              <span>Typography</span>
+              <span>文字組み</span>
               <select id="typePresetInput">
-                <option value="balanced">Balanced</option>
-                <option value="editorial">Editorial</option>
-                <option value="compact">Compact</option>
+                <option value="balanced">標準</option>
+                <option value="editorial">編集的</option>
+                <option value="compact">コンパクト</option>
               </select>
             </label>
             <label class="field">
-              <span>Rhythm</span>
+              <span>余白リズム</span>
               <select id="densityInput">
-                <option value="balanced">Balanced</option>
-                <option value="airy">Airy</option>
-                <option value="compact">Compact</option>
+                <option value="balanced">標準</option>
+                <option value="airy">ゆったり</option>
+                <option value="compact">コンパクト</option>
               </select>
             </label>
             <label class="range-field">
-              <span>Shape</span>
+              <span>角丸</span>
               <input id="pageRadiusInput" type="range" min="0" max="28" step="1">
               <output id="pageRadiusValue">8</output>
             </label>
             <label class="range-field">
-              <span>Depth</span>
+              <span>影</span>
               <input id="elevationInput" type="range" min="0" max="5" step="1">
               <output id="elevationValue">2</output>
             </label>
             <div class="contrast-card" id="contrastCard">
               <div>
-                <span>Contrast</span>
+                <span>コントラスト</span>
                 <strong id="contrastScore">--</strong>
               </div>
               <div class="contrast-track" aria-hidden="true">
                 <span id="contrastFill"></span>
               </div>
-              <p id="contrastHint">Select text to check readability.</p>
+              <p id="contrastHint">テキストを選択すると読みやすさを確認できます。</p>
             </div>
           </section>
           <section class="panel-section layers-section">
-            <h2>Layers</h2>
-            <input class="layer-search" id="layerSearch" type="search" placeholder="Filter layers">
+            <h2>レイヤー</h2>
+            <input class="layer-search" id="layerSearch" type="search" placeholder="レイヤーを絞り込み">
             <div class="layers-list" id="layersList"></div>
           </section>
         </aside>
 
-        <section class="stage-shell" aria-label="Editable preview">
+        <section class="stage-shell" aria-label="編集プレビュー">
           <div class="stage-header">
-            <span id="currentTarget">Page</span>
-            <div class="preview-tabs" aria-label="Preview mode">
-              <button class="is-active" type="button" data-preview-mode="after">After</button>
-              <button type="button" data-preview-mode="before">Before</button>
-              <button type="button" data-preview-mode="split">Split</button>
-              <button type="button" data-preview-mode="slider">Slider</button>
+            <span id="currentTarget">ページ</span>
+            <div class="preview-tabs" aria-label="プレビューモード">
+              <button class="is-active" type="button" data-preview-mode="after">変更後</button>
+              <button type="button" data-preview-mode="before">変更前</button>
+              <button type="button" data-preview-mode="split">比較</button>
+              <button type="button" data-preview-mode="slider">スライダー</button>
             </div>
-            <span id="viewportLabel">Desktop 1280</span>
+            <span id="viewportLabel">デスクトップ 1280</span>
           </div>
           <div class="stage-scroll">
             <div class="stage-compare show-after" id="stageCompare">
               <div class="stage-frame preview-before desktop" id="beforeStageFrame">
-                <span class="pane-label">Before</span>
-                <iframe id="beforeFrame" title="Original website preview"></iframe>
+                <span class="pane-label">変更前</span>
+                <iframe id="beforeFrame" title="元サイトのプレビュー"></iframe>
               </div>
               <div class="stage-frame preview-after desktop" id="stageFrame">
-                <span class="pane-label">After</span>
-                <iframe id="previewFrame" title="Edited website preview"></iframe>
+                <span class="pane-label">変更後</span>
+                <iframe id="previewFrame" title="編集後サイトのプレビュー"></iframe>
               </div>
               <label class="diff-control" id="diffControl">
-                <span>Before</span>
-                <input id="diffSlider" type="range" min="0" max="100" value="50" aria-label="Before after reveal">
-                <span>After</span>
+                <span>変更前</span>
+                <input id="diffSlider" type="range" min="0" max="100" value="50" aria-label="変更前後の表示比率">
+                <span>変更後</span>
               </label>
             </div>
           </div>
         </section>
 
-        <aside class="side-panel inspector" aria-label="Inspector">
+        <aside class="side-panel inspector" aria-label="インスペクター">
           <div class="inspector-title">
-            <h2>Inspector</h2>
-            <span id="selectedBadge">Body</span>
+            <h2>インスペクター</h2>
+            <span id="selectedBadge">本文</span>
           </div>
           <div class="selection-path" id="selectionPath"></div>
-          <div class="inspector-tabs" aria-label="Inspector tabs">
-            <button class="is-active" type="button" data-inspector-tab="content">Content</button>
-            <button type="button" data-inspector-tab="layout">Layout</button>
-            <button type="button" data-inspector-tab="style">Style</button>
-            <button type="button" data-inspector-tab="actions">Actions</button>
+          <div class="inspector-tabs" aria-label="インスペクタータブ">
+            <button class="is-active" type="button" data-inspector-tab="content">内容</button>
+            <button type="button" data-inspector-tab="layout">配置</button>
+            <button type="button" data-inspector-tab="style">見た目</button>
+            <button type="button" data-inspector-tab="actions">操作</button>
           </div>
 
           <section class="panel-section" data-inspector-panel="content">
             <label class="field">
-              <span>Text</span>
+              <span>テキスト</span>
               <textarea id="textInput" rows="4" spellcheck="false"></textarea>
             </label>
             <label class="field">
-              <span>Image URL</span>
+              <span>画像URL</span>
               <input id="imageInput" type="url" placeholder="https://...">
             </label>
             <label class="field">
-              <span>Image Alt</span>
-              <input id="imageAltInput" type="text" placeholder="Describe the image">
+              <span>画像説明</span>
+              <input id="imageAltInput" type="text" placeholder="画像の内容を説明">
             </label>
             <label class="field">
-              <span>Link</span>
+              <span>リンク</span>
               <input id="linkInput" type="url" placeholder="https://...">
             </label>
-            <button class="text-button wide" id="lazyImageBtn" type="button">Lazy load image</button>
-            <button class="text-button wide" id="compressImageBtn" type="button">Compress image</button>
+            <button class="text-button wide" id="lazyImageBtn" type="button">画像を遅延読込</button>
+            <button class="text-button wide" id="compressImageBtn" type="button">画像を圧縮</button>
           </section>
 
           <section class="panel-section layout-tools" data-inspector-panel="layout">
-            <h2>Layout</h2>
+            <h2>配置</h2>
             <div class="two-col tight">
               <label class="field">
-                <span>Display</span>
+                <span>表示形式</span>
                 <select id="displayInput">
-                  <option value="">Auto</option>
-                  <option value="block">Block</option>
-                  <option value="flex">Flex</option>
-                  <option value="grid">Grid</option>
-                  <option value="inline-flex">Inline flex</option>
-                  <option value="none">Hidden</option>
+                  <option value="">自動</option>
+                  <option value="block">ブロック</option>
+                  <option value="flex">フレックス</option>
+                  <option value="grid">グリッド</option>
+                  <option value="inline-flex">インラインフレックス</option>
+                  <option value="none">非表示</option>
                 </select>
               </label>
               <label class="field">
-                <span>Object Fit</span>
+                <span>画像の収め方</span>
                 <select id="objectFitInput">
-                  <option value="">Auto</option>
-                  <option value="cover">Cover</option>
-                  <option value="contain">Contain</option>
-                  <option value="fill">Fill</option>
+                  <option value="">自動</option>
+                  <option value="cover">切り抜き</option>
+                  <option value="contain">全体表示</option>
+                  <option value="fill">引き伸ばし</option>
                 </select>
               </label>
               <label class="field">
-                <span>Width</span>
-                <input id="widthInput" type="number" min="0" max="2400" step="1" placeholder="auto">
+                <span>幅</span>
+                <input id="widthInput" type="number" min="0" max="2400" step="1" placeholder="自動">
               </label>
               <label class="field">
-                <span>Max Width</span>
-                <input id="maxWidthInput" type="number" min="0" max="2400" step="1" placeholder="auto">
+                <span>最大幅</span>
+                <input id="maxWidthInput" type="number" min="0" max="2400" step="1" placeholder="自動">
               </label>
               <label class="field">
-                <span>Min Height</span>
-                <input id="minHeightInput" type="number" min="0" max="1600" step="1" placeholder="auto">
+                <span>最小高さ</span>
+                <input id="minHeightInput" type="number" min="0" max="1600" step="1" placeholder="自動">
               </label>
             </div>
             <label class="range-field">
-              <span>Margin</span>
+              <span>外余白</span>
               <input id="marginInput" type="range" min="0" max="120" step="2">
               <output id="marginValue">0</output>
             </label>
           </section>
 
           <section class="panel-section style-tools" data-inspector-panel="style">
-            <h2>Style Tools</h2>
+            <h2>スタイルツール</h2>
             <label class="field">
-              <span>Style Scope</span>
+              <span>適用範囲</span>
               <select id="styleScopeInput">
-                <option value="all">All viewports</option>
-                <option value="desktop">Desktop only</option>
-                <option value="tablet">Tablet only</option>
-                <option value="phone">Phone only</option>
+                <option value="all">全サイズ</option>
+                <option value="desktop">デスクトップのみ</option>
+                <option value="tablet">タブレットのみ</option>
+                <option value="phone">スマホのみ</option>
               </select>
             </label>
             <label class="field">
-              <span>Preset</span>
+              <span>プリセット</span>
               <select id="stylePresetInput">
-                <option value="softCard">Soft card</option>
-                <option value="accentButton">Accent button</option>
-                <option value="ghostButton">Ghost button</option>
-                <option value="sectionBand">Section band</option>
-                <option value="heroText">Hero text</option>
-                <option value="imageFrame">Image frame</option>
+                <option value="softCard">やわらかいカード</option>
+                <option value="accentButton">強調ボタン</option>
+                <option value="ghostButton">枠線ボタン</option>
+                <option value="sectionBand">セクション帯</option>
+                <option value="heroText">ヒーローテキスト</option>
+                <option value="imageFrame">画像フレーム</option>
               </select>
             </label>
             <div class="style-action-grid">
-              <button class="text-button wide" id="applyStylePresetBtn" type="button">Apply</button>
-              <button class="text-button wide" id="copyStyleBtn" type="button">Copy</button>
-              <button class="text-button wide" id="pasteStyleBtn" type="button">Paste</button>
-              <button class="text-button wide" id="clearStyleBtn" type="button">Clear</button>
-              <button class="text-button wide span-2" id="applySimilarBtn" type="button">Apply Similar</button>
-              <button class="text-button wide span-2" id="editHtmlBtn" type="button">Edit HTML</button>
+              <button class="text-button wide" id="applyStylePresetBtn" type="button">適用</button>
+              <button class="text-button wide" id="copyStyleBtn" type="button">コピー</button>
+              <button class="text-button wide" id="pasteStyleBtn" type="button">貼付</button>
+              <button class="text-button wide" id="clearStyleBtn" type="button">解除</button>
+              <button class="text-button wide span-2" id="applySimilarBtn" type="button">似た要素に適用</button>
+              <button class="text-button wide span-2" id="editHtmlBtn" type="button">HTML編集</button>
             </div>
             <label class="toggle-row">
               <input id="spacingOverlayToggle" type="checkbox">
-              <span>Show spacing overlay</span>
+              <span>余白を表示</span>
             </label>
           </section>
 
           <section class="panel-section two-col" data-inspector-panel="style">
             <label class="field">
-              <span>Text</span>
+              <span>文字色</span>
               <input id="colorInput" type="color">
             </label>
             <label class="field">
-              <span>Fill</span>
+              <span>背景色</span>
               <input id="bgInput" type="color">
             </label>
             <label class="field">
-              <span>Size</span>
+              <span>文字サイズ</span>
               <input id="fontSizeInput" type="number" min="8" max="140" step="1">
             </label>
             <label class="field">
-              <span>Weight</span>
+              <span>太さ</span>
               <select id="fontWeightInput">
-                <option value="">Auto</option>
+                <option value="">自動</option>
                 <option value="400">400</option>
                 <option value="500">500</option>
                 <option value="600">600</option>
@@ -408,42 +408,42 @@
 
           <section class="panel-section" data-inspector-panel="layout">
             <label class="field">
-              <span>Align</span>
+              <span>配置</span>
               <select id="alignInput">
-                <option value="">Auto</option>
-                <option value="left">Left</option>
-                <option value="center">Center</option>
-                <option value="right">Right</option>
+                <option value="">自動</option>
+                <option value="left">左</option>
+                <option value="center">中央</option>
+                <option value="right">右</option>
               </select>
             </label>
             <label class="range-field">
-              <span>Padding</span>
+              <span>内余白</span>
               <input id="paddingInput" type="range" min="0" max="96" step="2">
               <output id="paddingValue">0</output>
             </label>
             <label class="range-field">
-              <span>Radius</span>
+              <span>角丸</span>
               <input id="radiusInput" type="range" min="0" max="48" step="1">
               <output id="radiusValue">0</output>
             </label>
             <label class="range-field">
-              <span>Gap</span>
+              <span>間隔</span>
               <input id="gapInput" type="range" min="0" max="72" step="2">
               <output id="gapValue">0</output>
             </label>
           </section>
 
           <section class="panel-section action-grid" data-inspector-panel="actions">
-            <button class="icon-action" id="moveUpBtn" type="button" title="Move up" aria-label="Move up">
+            <button class="icon-action" id="moveUpBtn" type="button" title="上へ移動" aria-label="上へ移動">
               <svg class="icon"><use href="#i-up"></use></svg>
             </button>
-            <button class="icon-action" id="moveDownBtn" type="button" title="Move down" aria-label="Move down">
+            <button class="icon-action" id="moveDownBtn" type="button" title="下へ移動" aria-label="下へ移動">
               <svg class="icon"><use href="#i-down"></use></svg>
             </button>
-            <button class="icon-action" id="duplicateBtn" type="button" title="Duplicate" aria-label="Duplicate">
+            <button class="icon-action" id="duplicateBtn" type="button" title="複製" aria-label="複製">
               <svg class="icon"><use href="#i-copy"></use></svg>
             </button>
-            <button class="icon-action danger" id="deleteBtn" type="button" title="Delete" aria-label="Delete">
+            <button class="icon-action danger" id="deleteBtn" type="button" title="削除" aria-label="削除">
               <svg class="icon"><use href="#i-trash"></use></svg>
             </button>
           </section>
@@ -454,8 +454,8 @@
     <dialog id="importDialog">
       <form method="dialog" class="dialog-card">
         <div class="dialog-title">
-          <h2>Import HTML</h2>
-          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+          <h2>HTML取込</h2>
+          <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">x</button>
         </div>
         <label class="field">
           <span>HTML</span>
@@ -466,8 +466,8 @@
           <textarea id="importCss" rows="8" spellcheck="false"></textarea>
         </label>
         <div class="dialog-actions">
-          <button class="text-button" value="cancel" type="submit">Cancel</button>
-          <button class="text-button primary" id="applyImportBtn" value="default" type="button">Apply</button>
+          <button class="text-button" value="cancel" type="submit">キャンセル</button>
+          <button class="text-button primary" id="applyImportBtn" value="default" type="button">適用</button>
         </div>
       </form>
     </dialog>
@@ -475,18 +475,18 @@
     <dialog id="exportDialog">
       <form method="dialog" class="dialog-card export-card">
         <div class="dialog-title">
-          <h2>Export HTML</h2>
-          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+          <h2>書き出し</h2>
+          <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">x</button>
         </div>
         <textarea id="exportCode" spellcheck="false"></textarea>
         <div class="dialog-actions">
           <button class="text-button" id="copyExportBtn" type="button">
             <svg class="icon"><use href="#i-copy"></use></svg>
-            <span>Copy</span>
+            <span>コピー</span>
           </button>
           <button class="text-button" id="cssDiffBtn" type="button">
             <svg class="icon"><use href="#i-copy"></use></svg>
-            <span>CSS Diff</span>
+            <span>CSS差分</span>
           </button>
           <button class="text-button" id="wpExportBtn" type="button">
             <span>WP CSS</span>
@@ -496,7 +496,7 @@
           </button>
           <button class="text-button primary" id="downloadExportBtn" type="button">
             <svg class="icon"><use href="#i-export"></use></svg>
-            <span>Download</span>
+            <span>DL</span>
           </button>
         </div>
       </form>
@@ -505,13 +505,13 @@
     <dialog id="htmlDialog">
       <form method="dialog" class="dialog-card export-card">
         <div class="dialog-title">
-          <h2>HTML Editor</h2>
-          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+          <h2>HTML編集</h2>
+          <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">x</button>
         </div>
         <textarea id="htmlEditorCode" spellcheck="false"></textarea>
         <div class="dialog-actions">
-          <button class="text-button" value="cancel" type="submit">Cancel</button>
-          <button class="text-button primary" id="applyHtmlBtn" type="button">Apply HTML</button>
+          <button class="text-button" value="cancel" type="submit">キャンセル</button>
+          <button class="text-button primary" id="applyHtmlBtn" type="button">HTMLを適用</button>
         </div>
       </form>
     </dialog>
@@ -519,13 +519,13 @@
     <dialog id="cssDialog">
       <form method="dialog" class="dialog-card export-card">
         <div class="dialog-title">
-          <h2>CSS Editor</h2>
-          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+          <h2>CSS編集</h2>
+          <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">x</button>
         </div>
         <textarea id="cssEditorCode" spellcheck="false"></textarea>
         <div class="dialog-actions">
-          <button class="text-button" value="cancel" type="submit">Cancel</button>
-          <button class="text-button primary" id="applyCssBtn" type="button">Apply CSS</button>
+          <button class="text-button" value="cancel" type="submit">キャンセル</button>
+          <button class="text-button primary" id="applyCssBtn" type="button">CSSを適用</button>
         </div>
       </form>
     </dialog>
@@ -534,30 +534,30 @@
       <form method="dialog" class="dialog-card">
         <div class="dialog-title">
           <h2>SEO / OGP</h2>
-          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+          <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">x</button>
         </div>
         <label class="field">
-          <span>Title</span>
-          <input id="metaTitleInput" type="text" placeholder="Page title">
+          <span>タイトル</span>
+          <input id="metaTitleInput" type="text" placeholder="ページタイトル">
         </label>
         <label class="field">
-          <span>Description</span>
+          <span>説明文</span>
           <textarea id="metaDescriptionInput" rows="3" spellcheck="false"></textarea>
         </label>
         <label class="field">
-          <span>OG Image</span>
+          <span>OG画像</span>
           <input id="metaOgImageInput" type="url" placeholder="https://...">
         </label>
         <div class="og-preview" id="ogPreview">
           <div class="og-image" id="ogPreviewImage"></div>
           <div>
-            <strong id="ogPreviewTitle">Page title</strong>
-            <p id="ogPreviewDescription">Description preview</p>
+            <strong id="ogPreviewTitle">ページタイトル</strong>
+            <p id="ogPreviewDescription">説明文プレビュー</p>
           </div>
         </div>
         <div class="dialog-actions">
-          <button class="text-button" value="cancel" type="submit">Cancel</button>
-          <button class="text-button primary" id="applyMetaBtn" type="button">Apply Meta</button>
+          <button class="text-button" value="cancel" type="submit">キャンセル</button>
+          <button class="text-button primary" id="applyMetaBtn" type="button">メタ情報を適用</button>
         </div>
       </form>
     </dialog>
@@ -565,12 +565,12 @@
     <dialog id="auditDialog">
       <form method="dialog" class="dialog-card">
         <div class="dialog-title">
-          <h2>Page Audit</h2>
-          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+          <h2>ページ診断</h2>
+          <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">x</button>
         </div>
         <div class="audit-results" id="auditResults"></div>
         <div class="dialog-actions">
-          <button class="text-button primary" value="default" type="submit">Done</button>
+          <button class="text-button primary" value="default" type="submit">閉じる</button>
         </div>
       </form>
     </dialog>
