@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Web Upper UI Editor</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <svg aria-hidden="true" class="icon-sprite">
+      <symbol id="i-add" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14"></path>
+      </symbol>
+      <symbol id="i-undo" viewBox="0 0 24 24">
+        <path d="M9 14 4 9l5-5"></path>
+        <path d="M4 9h10a6 6 0 0 1 0 12h-1"></path>
+      </symbol>
+      <symbol id="i-redo" viewBox="0 0 24 24">
+        <path d="m15 14 5-5-5-5"></path>
+        <path d="M20 9H10a6 6 0 0 0 0 12h1"></path>
+      </symbol>
+      <symbol id="i-import" viewBox="0 0 24 24">
+        <path d="M12 3v12"></path>
+        <path d="m7 8 5-5 5 5"></path>
+        <path d="M5 15v4h14v-4"></path>
+      </symbol>
+      <symbol id="i-export" viewBox="0 0 24 24">
+        <path d="M12 21V9"></path>
+        <path d="m7 16 5 5 5-5"></path>
+        <path d="M5 9V5h14v4"></path>
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <rect x="8" y="8" width="11" height="11" rx="2"></rect>
+        <path d="M5 16H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24">
+        <path d="M3 6h18"></path>
+        <path d="M8 6V4h8v2"></path>
+        <path d="M19 6l-1 15H6L5 6"></path>
+      </symbol>
+      <symbol id="i-up" viewBox="0 0 24 24">
+        <path d="m6 15 6-6 6 6"></path>
+      </symbol>
+      <symbol id="i-down" viewBox="0 0 24 24">
+        <path d="m6 9 6 6 6-6"></path>
+      </symbol>
+      <symbol id="i-desktop" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+        <path d="M8 20h8M12 16v4"></path>
+      </symbol>
+      <symbol id="i-tablet" viewBox="0 0 24 24">
+        <rect x="6" y="3" width="12" height="18" rx="2"></rect>
+        <path d="M11 18h2"></path>
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <rect x="8" y="2" width="8" height="20" rx="2"></rect>
+        <path d="M11 18h2"></path>
+      </symbol>
+    </svg>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">WU</span>
+          <div class="brand-copy">
+            <strong>Web Upper</strong>
+            <span>UI Editor</span>
+          </div>
+        </div>
+
+        <form class="url-loader" id="urlLoader">
+          <input id="siteUrlInput" type="url" placeholder="https://example.com" aria-label="Site URL">
+          <button class="text-button primary" id="loadUrlBtn" type="submit">
+            <svg class="icon"><use href="#i-import"></use></svg>
+            <span>Load</span>
+          </button>
+          <span id="urlStatus">Ready</span>
+        </form>
+
+        <div class="toolbar" role="toolbar" aria-label="Editor actions">
+          <button class="icon-button" id="undoBtn" type="button" title="Undo" aria-label="Undo">
+            <svg class="icon"><use href="#i-undo"></use></svg>
+          </button>
+          <button class="icon-button" id="redoBtn" type="button" title="Redo" aria-label="Redo">
+            <svg class="icon"><use href="#i-redo"></use></svg>
+          </button>
+          <div class="segmented" aria-label="Viewport">
+            <button class="icon-button is-active" type="button" data-viewport="desktop" title="Desktop" aria-label="Desktop">
+              <svg class="icon"><use href="#i-desktop"></use></svg>
+            </button>
+            <button class="icon-button" type="button" data-viewport="tablet" title="Tablet" aria-label="Tablet">
+              <svg class="icon"><use href="#i-tablet"></use></svg>
+            </button>
+            <button class="icon-button" type="button" data-viewport="phone" title="Phone" aria-label="Phone">
+              <svg class="icon"><use href="#i-phone"></use></svg>
+            </button>
+          </div>
+          <button class="text-button" id="importBtn" type="button">
+            <svg class="icon"><use href="#i-import"></use></svg>
+            <span>Import</span>
+          </button>
+          <button class="text-button primary" id="exportBtn" type="button">
+            <svg class="icon"><use href="#i-export"></use></svg>
+            <span>Export</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="side-panel left-panel" aria-label="Blocks and layers">
+          <section class="panel-section project-section">
+            <h2>Project</h2>
+            <div class="project-actions">
+              <button class="text-button wide" id="saveProjectBtn" type="button">
+                <svg class="icon"><use href="#i-export"></use></svg>
+                <span>Save</span>
+              </button>
+              <button class="text-button wide" id="restoreProjectBtn" type="button">
+                <svg class="icon"><use href="#i-import"></use></svg>
+                <span>Restore</span>
+              </button>
+              <button class="text-button wide" id="newProjectBtn" type="button">
+                <svg class="icon"><use href="#i-add"></use></svg>
+                <span>New</span>
+              </button>
+            </div>
+            <span class="autosave-status" id="autosaveStatus">Autosave ready</span>
+            <label class="field">
+              <span>Snapshot Name</span>
+              <input id="snapshotNameInput" type="text" placeholder="Homepage polish">
+            </label>
+            <div class="snapshot-row">
+              <select id="snapshotSelect" aria-label="Saved snapshots"></select>
+              <button class="icon-button" id="saveSnapshotBtn" type="button" title="Save snapshot" aria-label="Save snapshot">
+                <svg class="icon"><use href="#i-add"></use></svg>
+              </button>
+              <button class="icon-button" id="loadSnapshotBtn" type="button" title="Load snapshot" aria-label="Load snapshot">
+                <svg class="icon"><use href="#i-import"></use></svg>
+              </button>
+            </div>
+          </section>
+          <section class="panel-section">
+            <h2>Blocks</h2>
+            <div class="block-grid" id="blockGrid"></div>
+          </section>
+          <section class="panel-section design-section">
+            <h2>Design Lab</h2>
+            <div class="design-actions">
+              <button class="text-button wide" id="autoPolishBtn" type="button">
+                <svg class="icon"><use href="#i-add"></use></svg>
+                <span>Polish</span>
+              </button>
+              <button class="text-button wide" id="fixContrastBtn" type="button">
+                <svg class="icon"><use href="#i-copy"></use></svg>
+                <span>Contrast</span>
+              </button>
+              <button class="text-button wide" id="auditBtn" type="button">
+                <svg class="icon"><use href="#i-copy"></use></svg>
+                <span>Audit</span>
+              </button>
+              <button class="text-button wide" id="cssEditorBtn" type="button">
+                <svg class="icon"><use href="#i-copy"></use></svg>
+                <span>CSS</span>
+              </button>
+              <button class="text-button wide" id="metaEditorBtn" type="button">
+                <svg class="icon"><use href="#i-copy"></use></svg>
+                <span>Meta</span>
+              </button>
+            </div>
+            <label class="field">
+              <span>Industry Polish</span>
+              <select id="industryPresetInput">
+                <option value="saas">SaaS</option>
+                <option value="ecommerce">E-commerce</option>
+                <option value="portfolio">Portfolio</option>
+                <option value="restaurant">Restaurant</option>
+                <option value="clinic">Clinic</option>
+                <option value="app">Mobile app</option>
+              </select>
+            </label>
+            <div class="design-group">
+              <span class="design-label">Palette</span>
+              <div class="palette-grid" id="paletteGrid"></div>
+            </div>
+            <label class="field">
+              <span>Typography</span>
+              <select id="typePresetInput">
+                <option value="balanced">Balanced</option>
+                <option value="editorial">Editorial</option>
+                <option value="compact">Compact</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Rhythm</span>
+              <select id="densityInput">
+                <option value="balanced">Balanced</option>
+                <option value="airy">Airy</option>
+                <option value="compact">Compact</option>
+              </select>
+            </label>
+            <label class="range-field">
+              <span>Shape</span>
+              <input id="pageRadiusInput" type="range" min="0" max="28" step="1">
+              <output id="pageRadiusValue">8</output>
+            </label>
+            <label class="range-field">
+              <span>Depth</span>
+              <input id="elevationInput" type="range" min="0" max="5" step="1">
+              <output id="elevationValue">2</output>
+            </label>
+            <div class="contrast-card" id="contrastCard">
+              <div>
+                <span>Contrast</span>
+                <strong id="contrastScore">--</strong>
+              </div>
+              <div class="contrast-track" aria-hidden="true">
+                <span id="contrastFill"></span>
+              </div>
+              <p id="contrastHint">Select text to check readability.</p>
+            </div>
+          </section>
+          <section class="panel-section layers-section">
+            <h2>Layers</h2>
+            <input class="layer-search" id="layerSearch" type="search" placeholder="Filter layers">
+            <div class="layers-list" id="layersList"></div>
+          </section>
+        </aside>
+
+        <section class="stage-shell" aria-label="Editable preview">
+          <div class="stage-header">
+            <span id="currentTarget">Page</span>
+            <div class="preview-tabs" aria-label="Preview mode">
+              <button class="is-active" type="button" data-preview-mode="after">After</button>
+              <button type="button" data-preview-mode="before">Before</button>
+              <button type="button" data-preview-mode="split">Split</button>
+              <button type="button" data-preview-mode="slider">Slider</button>
+            </div>
+            <span id="viewportLabel">Desktop 1280</span>
+          </div>
+          <div class="stage-scroll">
+            <div class="stage-compare show-after" id="stageCompare">
+              <div class="stage-frame preview-before desktop" id="beforeStageFrame">
+                <span class="pane-label">Before</span>
+                <iframe id="beforeFrame" title="Original website preview"></iframe>
+              </div>
+              <div class="stage-frame preview-after desktop" id="stageFrame">
+                <span class="pane-label">After</span>
+                <iframe id="previewFrame" title="Edited website preview"></iframe>
+              </div>
+              <label class="diff-control" id="diffControl">
+                <span>Before</span>
+                <input id="diffSlider" type="range" min="0" max="100" value="50" aria-label="Before after reveal">
+                <span>After</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side-panel inspector" aria-label="Inspector">
+          <div class="inspector-title">
+            <h2>Inspector</h2>
+            <span id="selectedBadge">Body</span>
+          </div>
+          <div class="selection-path" id="selectionPath"></div>
+
+          <section class="panel-section">
+            <label class="field">
+              <span>Text</span>
+              <textarea id="textInput" rows="4" spellcheck="false"></textarea>
+            </label>
+            <label class="field">
+              <span>Image URL</span>
+              <input id="imageInput" type="url" placeholder="https://...">
+            </label>
+            <label class="field">
+              <span>Image Alt</span>
+              <input id="imageAltInput" type="text" placeholder="Describe the image">
+            </label>
+            <label class="field">
+              <span>Link</span>
+              <input id="linkInput" type="url" placeholder="https://...">
+            </label>
+            <button class="text-button wide" id="lazyImageBtn" type="button">Lazy load image</button>
+            <button class="text-button wide" id="compressImageBtn" type="button">Compress image</button>
+          </section>
+
+          <section class="panel-section layout-tools">
+            <h2>Layout</h2>
+            <div class="two-col tight">
+              <label class="field">
+                <span>Display</span>
+                <select id="displayInput">
+                  <option value="">Auto</option>
+                  <option value="block">Block</option>
+                  <option value="flex">Flex</option>
+                  <option value="grid">Grid</option>
+                  <option value="inline-flex">Inline flex</option>
+                  <option value="none">Hidden</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Object Fit</span>
+                <select id="objectFitInput">
+                  <option value="">Auto</option>
+                  <option value="cover">Cover</option>
+                  <option value="contain">Contain</option>
+                  <option value="fill">Fill</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Width</span>
+                <input id="widthInput" type="number" min="0" max="2400" step="1" placeholder="auto">
+              </label>
+              <label class="field">
+                <span>Max Width</span>
+                <input id="maxWidthInput" type="number" min="0" max="2400" step="1" placeholder="auto">
+              </label>
+              <label class="field">
+                <span>Min Height</span>
+                <input id="minHeightInput" type="number" min="0" max="1600" step="1" placeholder="auto">
+              </label>
+            </div>
+            <label class="range-field">
+              <span>Margin</span>
+              <input id="marginInput" type="range" min="0" max="120" step="2">
+              <output id="marginValue">0</output>
+            </label>
+          </section>
+
+          <section class="panel-section style-tools">
+            <h2>Style Tools</h2>
+            <label class="field">
+              <span>Style Scope</span>
+              <select id="styleScopeInput">
+                <option value="all">All viewports</option>
+                <option value="desktop">Desktop only</option>
+                <option value="tablet">Tablet only</option>
+                <option value="phone">Phone only</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Preset</span>
+              <select id="stylePresetInput">
+                <option value="softCard">Soft card</option>
+                <option value="accentButton">Accent button</option>
+                <option value="ghostButton">Ghost button</option>
+                <option value="sectionBand">Section band</option>
+                <option value="heroText">Hero text</option>
+                <option value="imageFrame">Image frame</option>
+              </select>
+            </label>
+            <div class="style-action-grid">
+              <button class="text-button wide" id="applyStylePresetBtn" type="button">Apply</button>
+              <button class="text-button wide" id="copyStyleBtn" type="button">Copy</button>
+              <button class="text-button wide" id="pasteStyleBtn" type="button">Paste</button>
+              <button class="text-button wide" id="clearStyleBtn" type="button">Clear</button>
+              <button class="text-button wide span-2" id="applySimilarBtn" type="button">Apply Similar</button>
+              <button class="text-button wide span-2" id="editHtmlBtn" type="button">Edit HTML</button>
+            </div>
+            <label class="toggle-row">
+              <input id="spacingOverlayToggle" type="checkbox">
+              <span>Show spacing overlay</span>
+            </label>
+          </section>
+
+          <section class="panel-section two-col">
+            <label class="field">
+              <span>Text</span>
+              <input id="colorInput" type="color">
+            </label>
+            <label class="field">
+              <span>Fill</span>
+              <input id="bgInput" type="color">
+            </label>
+            <label class="field">
+              <span>Size</span>
+              <input id="fontSizeInput" type="number" min="8" max="140" step="1">
+            </label>
+            <label class="field">
+              <span>Weight</span>
+              <select id="fontWeightInput">
+                <option value="">Auto</option>
+                <option value="400">400</option>
+                <option value="500">500</option>
+                <option value="600">600</option>
+                <option value="700">700</option>
+                <option value="800">800</option>
+              </select>
+            </label>
+          </section>
+
+          <section class="panel-section">
+            <label class="field">
+              <span>Align</span>
+              <select id="alignInput">
+                <option value="">Auto</option>
+                <option value="left">Left</option>
+                <option value="center">Center</option>
+                <option value="right">Right</option>
+              </select>
+            </label>
+            <label class="range-field">
+              <span>Padding</span>
+              <input id="paddingInput" type="range" min="0" max="96" step="2">
+              <output id="paddingValue">0</output>
+            </label>
+            <label class="range-field">
+              <span>Radius</span>
+              <input id="radiusInput" type="range" min="0" max="48" step="1">
+              <output id="radiusValue">0</output>
+            </label>
+            <label class="range-field">
+              <span>Gap</span>
+              <input id="gapInput" type="range" min="0" max="72" step="2">
+              <output id="gapValue">0</output>
+            </label>
+          </section>
+
+          <section class="panel-section action-grid">
+            <button class="icon-action" id="moveUpBtn" type="button" title="Move up" aria-label="Move up">
+              <svg class="icon"><use href="#i-up"></use></svg>
+            </button>
+            <button class="icon-action" id="moveDownBtn" type="button" title="Move down" aria-label="Move down">
+              <svg class="icon"><use href="#i-down"></use></svg>
+            </button>
+            <button class="icon-action" id="duplicateBtn" type="button" title="Duplicate" aria-label="Duplicate">
+              <svg class="icon"><use href="#i-copy"></use></svg>
+            </button>
+            <button class="icon-action danger" id="deleteBtn" type="button" title="Delete" aria-label="Delete">
+              <svg class="icon"><use href="#i-trash"></use></svg>
+            </button>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <dialog id="importDialog">
+      <form method="dialog" class="dialog-card">
+        <div class="dialog-title">
+          <h2>Import HTML</h2>
+          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+        </div>
+        <label class="field">
+          <span>HTML</span>
+          <textarea id="importHtml" rows="12" spellcheck="false"></textarea>
+        </label>
+        <label class="field">
+          <span>CSS</span>
+          <textarea id="importCss" rows="8" spellcheck="false"></textarea>
+        </label>
+        <div class="dialog-actions">
+          <button class="text-button" value="cancel" type="submit">Cancel</button>
+          <button class="text-button primary" id="applyImportBtn" value="default" type="button">Apply</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="exportDialog">
+      <form method="dialog" class="dialog-card export-card">
+        <div class="dialog-title">
+          <h2>Export HTML</h2>
+          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+        </div>
+        <textarea id="exportCode" spellcheck="false"></textarea>
+        <div class="dialog-actions">
+          <button class="text-button" id="copyExportBtn" type="button">
+            <svg class="icon"><use href="#i-copy"></use></svg>
+            <span>Copy</span>
+          </button>
+          <button class="text-button" id="cssDiffBtn" type="button">
+            <svg class="icon"><use href="#i-copy"></use></svg>
+            <span>CSS Diff</span>
+          </button>
+          <button class="text-button" id="wpExportBtn" type="button">
+            <span>WP CSS</span>
+          </button>
+          <button class="text-button" id="shopifyExportBtn" type="button">
+            <span>Shopify</span>
+          </button>
+          <button class="text-button primary" id="downloadExportBtn" type="button">
+            <svg class="icon"><use href="#i-export"></use></svg>
+            <span>Download</span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="htmlDialog">
+      <form method="dialog" class="dialog-card export-card">
+        <div class="dialog-title">
+          <h2>HTML Editor</h2>
+          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+        </div>
+        <textarea id="htmlEditorCode" spellcheck="false"></textarea>
+        <div class="dialog-actions">
+          <button class="text-button" value="cancel" type="submit">Cancel</button>
+          <button class="text-button primary" id="applyHtmlBtn" type="button">Apply HTML</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="cssDialog">
+      <form method="dialog" class="dialog-card export-card">
+        <div class="dialog-title">
+          <h2>CSS Editor</h2>
+          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+        </div>
+        <textarea id="cssEditorCode" spellcheck="false"></textarea>
+        <div class="dialog-actions">
+          <button class="text-button" value="cancel" type="submit">Cancel</button>
+          <button class="text-button primary" id="applyCssBtn" type="button">Apply CSS</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="metaDialog">
+      <form method="dialog" class="dialog-card">
+        <div class="dialog-title">
+          <h2>SEO / OGP</h2>
+          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+        </div>
+        <label class="field">
+          <span>Title</span>
+          <input id="metaTitleInput" type="text" placeholder="Page title">
+        </label>
+        <label class="field">
+          <span>Description</span>
+          <textarea id="metaDescriptionInput" rows="3" spellcheck="false"></textarea>
+        </label>
+        <label class="field">
+          <span>OG Image</span>
+          <input id="metaOgImageInput" type="url" placeholder="https://...">
+        </label>
+        <div class="og-preview" id="ogPreview">
+          <div class="og-image" id="ogPreviewImage"></div>
+          <div>
+            <strong id="ogPreviewTitle">Page title</strong>
+            <p id="ogPreviewDescription">Description preview</p>
+          </div>
+        </div>
+        <div class="dialog-actions">
+          <button class="text-button" value="cancel" type="submit">Cancel</button>
+          <button class="text-button primary" id="applyMetaBtn" type="button">Apply Meta</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="auditDialog">
+      <form method="dialog" class="dialog-card">
+        <div class="dialog-title">
+          <h2>Page Audit</h2>
+          <button class="icon-button" value="cancel" aria-label="Close" type="submit">x</button>
+        </div>
+        <div class="audit-results" id="auditResults"></div>
+        <div class="dialog-actions">
+          <button class="text-button primary" value="default" type="submit">Done</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
