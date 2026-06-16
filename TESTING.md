@@ -58,6 +58,8 @@
 
 ## Export
 
+- Open the export dialog and confirm the preflight score and top issues are shown.
+- Click the export preflight refresh button after making a change.
 - Export full HTML.
 - Export CSS Diff.
 - Export WP CSS.

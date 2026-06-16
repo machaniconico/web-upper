@@ -21,6 +21,13 @@ const exportDialog = document.querySelector("#exportDialog");
 const importHtml = document.querySelector("#importHtml");
 const importCss = document.querySelector("#importCss");
 const exportCode = document.querySelector("#exportCode");
+const exportCheck = document.querySelector("#exportCheck");
+const exportScoreBox = document.querySelector("#exportScoreBox");
+const exportCheckScore = document.querySelector("#exportCheckScore");
+const exportCheckLabel = document.querySelector("#exportCheckLabel");
+const exportCheckSummary = document.querySelector("#exportCheckSummary");
+const exportCheckIssues = document.querySelector("#exportCheckIssues");
+const refreshExportCheckBtn = document.querySelector("#refreshExportCheckBtn");
 const applyImportBtn = document.querySelector("#applyImportBtn");
 const copyExportBtn = document.querySelector("#copyExportBtn");
 const cssDiffBtn = document.querySelector("#cssDiffBtn");
@@ -3073,8 +3080,64 @@ ${generateCssDiff()}
 {% endschema %}`;
 }
 
+function exportCheckMessage(audit) {
+  if (!audit.issues.length) {
+    return "納品前チェックで目立つ問題は見つかりませんでした。";
+  }
+  if (audit.score >= 86) {
+    return `軽微な確認項目が${audit.issues.length}件あります。`;
+  }
+  if (audit.score >= 70) {
+    return `公開前に確認したい項目が${audit.issues.length}件あります。`;
+  }
+  return `公開前に直したい重要項目が${audit.issues.length}件あります。`;
+}
+
+function renderExportCheck() {
+  const audit = buildPageAudit();
+  if (!audit) {
+    exportCheckSummary.textContent = "チェック対象のプレビューがありません。";
+    exportCheckIssues.textContent = "";
+    exportCheckScore.textContent = "--";
+    exportCheckLabel.textContent = "未診断";
+    exportScoreBox.className = "export-score";
+    return;
+  }
+
+  const tone = audit.score >= 86 ? "good" : audit.score >= 70 ? "warn" : "bad";
+  exportScoreBox.className = `export-score ${tone}`;
+  exportCheckScore.textContent = String(audit.score);
+  exportCheckLabel.textContent = audit.score >= 86 ? "良好" : audit.score >= 70 ? "要確認" : "要修正";
+  exportCheckSummary.textContent = exportCheckMessage(audit);
+  exportCheckIssues.textContent = "";
+
+  const visibleIssues = audit.issues.slice(0, 3);
+  if (!visibleIssues.length) {
+    const item = document.createElement("div");
+    item.className = "export-issue good";
+    item.textContent = "このまま書き出せます";
+    exportCheckIssues.appendChild(item);
+    return;
+  }
+
+  for (const issue of visibleIssues) {
+    const item = document.createElement("div");
+    item.className = "export-issue";
+    item.textContent = `${issue.category}: ${issue.title}`;
+    exportCheckIssues.appendChild(item);
+  }
+
+  if (audit.issues.length > visibleIssues.length) {
+    const item = document.createElement("div");
+    item.className = "export-issue muted";
+    item.textContent = `ほか ${audit.issues.length - visibleIssues.length} 件`;
+    exportCheckIssues.appendChild(item);
+  }
+}
+
 function openExportDialog() {
   exportCode.value = exportDocument();
+  renderExportCheck();
   exportDialog.showModal();
   exportCode.focus();
   exportCode.select();
@@ -3121,6 +3184,10 @@ function importDocument() {
 }
 
 function downloadExport() {
+  const audit = buildPageAudit();
+  if (audit && audit.score < 70) {
+    notify(`書き出し前チェックは${audit.score}点です。重要項目を確認してください。`, "warning");
+  }
   const blob = new Blob([exportCode.value], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -3234,10 +3301,10 @@ function addAuditIssue(issues, category, title, detail, good = false) {
   issues.push({ category, title, detail, good });
 }
 
-function runPageAudit() {
+function buildPageAudit() {
   const doc = getDoc();
   if (!doc || !doc.body) {
-    return;
+    return null;
   }
   const issues = [];
   const images = Array.from(doc.querySelectorAll("img"));
@@ -3349,25 +3416,46 @@ function runPageAudit() {
     addAuditIssue(issues, "デザイン", `コントラストが低いテキストが${lowContrast.length}件あります`, "文字色と背景色のコントラストを上げると読みやすくなります。");
   }
 
-  auditResults.textContent = "";
-  const scoreItem = document.createElement("div");
-  scoreItem.className = `audit-score ${score >= 86 ? "good" : score >= 70 ? "warn" : "bad"}`;
-  scoreItem.innerHTML = `<strong>${score}</strong><span>クイックスコア</span>`;
-  auditResults.appendChild(scoreItem);
+  return {
+    score,
+    issues,
+    stats: {
+      actions: actions.length,
+      headings: headings.length,
+      images: images.length,
+      nodes: nodeCount,
+    },
+  };
+}
 
-  if (!issues.length) {
+function renderAuditResults(container, audit, scoreLabel = "クイックスコア") {
+  container.textContent = "";
+  const scoreItem = document.createElement("div");
+  scoreItem.className = `audit-score ${audit.score >= 86 ? "good" : audit.score >= 70 ? "warn" : "bad"}`;
+  scoreItem.innerHTML = `<strong>${audit.score}</strong><span>${escapeHtml(scoreLabel)}</span>`;
+  container.appendChild(scoreItem);
+
+  if (!audit.issues.length) {
     const item = document.createElement("div");
     item.className = "audit-item good";
     item.innerHTML = "<strong>目立つ問題は見つかりませんでした</strong><span>現在のページは簡易チェックを通過しています。</span>";
-    auditResults.appendChild(item);
+    container.appendChild(item);
   } else {
-    for (const issue of issues) {
+    for (const issue of audit.issues) {
       const item = document.createElement("div");
       item.className = `audit-item${issue.good ? " good" : ""}`;
       item.innerHTML = `<strong>${escapeHtml(issue.category)}: ${escapeHtml(issue.title)}</strong><span>${escapeHtml(issue.detail)}</span>`;
-      auditResults.appendChild(item);
+      container.appendChild(item);
     }
   }
+}
+
+function runPageAudit() {
+  const audit = buildPageAudit();
+  if (!audit) {
+    return;
+  }
+  renderAuditResults(auditResults, audit);
   auditDialog.showModal();
 }
 
@@ -3631,6 +3719,7 @@ function setupControls() {
 
   exportBtn.addEventListener("click", openExportDialog);
   applyImportBtn.addEventListener("click", importDocument);
+  refreshExportCheckBtn.addEventListener("click", renderExportCheck);
   copyExportBtn.addEventListener("click", copyExport);
   cssDiffBtn.addEventListener("click", () => {
     exportCode.value = generateCssDiff();

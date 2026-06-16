@@ -506,6 +506,19 @@
           <h2>書き出し</h2>
           <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">x</button>
         </div>
+        <div class="export-check" id="exportCheck">
+          <div class="export-score" id="exportScoreBox">
+            <strong id="exportCheckScore">--</strong>
+            <span id="exportCheckLabel">未診断</span>
+          </div>
+          <div class="export-check-main">
+            <div class="export-check-heading">
+              <span id="exportCheckSummary">書き出し前に品質チェックを実行します。</span>
+              <button class="text-button" id="refreshExportCheckBtn" type="button">再診断</button>
+            </div>
+            <div class="export-issues" id="exportCheckIssues"></div>
+          </div>
+        </div>
         <textarea id="exportCode" spellcheck="false"></textarea>
         <div class="dialog-actions">
           <button class="text-button" id="copyExportBtn" type="button">

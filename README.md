@@ -62,6 +62,7 @@ The checked-in launcher files are:
 - Autosave, manual save, restore, and named snapshots
 - Toast notifications and a notification log for important actions and failures
 - Project JSON export/import for moving work between environments
+- Export preflight check with score and top issues before downloading deliverables
 - Layer search and drag reorder
 - HTML editor, CSS editor, CSS diff export, WordPress CSS export, and Shopify section export
 - Chrome extension launcher scaffold in `extension/`
