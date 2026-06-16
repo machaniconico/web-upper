@@ -49,6 +49,9 @@ const diffSlider = document.querySelector("#diffSlider");
 const saveProjectBtn = document.querySelector("#saveProjectBtn");
 const restoreProjectBtn = document.querySelector("#restoreProjectBtn");
 const newProjectBtn = document.querySelector("#newProjectBtn");
+const exportProjectBtn = document.querySelector("#exportProjectBtn");
+const importProjectBtn = document.querySelector("#importProjectBtn");
+const projectFileInput = document.querySelector("#projectFileInput");
 const autosaveStatus = document.querySelector("#autosaveStatus");
 const snapshotNameInput = document.querySelector("#snapshotNameInput");
 const snapshotSelect = document.querySelector("#snapshotSelect");
@@ -56,6 +59,12 @@ const saveSnapshotBtn = document.querySelector("#saveSnapshotBtn");
 const loadSnapshotBtn = document.querySelector("#loadSnapshotBtn");
 const demoSampleInput = document.querySelector("#demoSampleInput");
 const loadDemoBtn = document.querySelector("#loadDemoBtn");
+const activityToggleBtn = document.querySelector("#activityToggleBtn");
+const activityCount = document.querySelector("#activityCount");
+const activityPanel = document.querySelector("#activityPanel");
+const activityList = document.querySelector("#activityList");
+const activityClearBtn = document.querySelector("#activityClearBtn");
+const toastRegion = document.querySelector("#toastRegion");
 
 const controls = {
   text: document.querySelector("#textInput"),
@@ -731,12 +740,101 @@ let currentViewport = "desktop";
 let spacingOverlayEnabled = false;
 let responsiveOverrides = {};
 let draggedLayerId = "";
+let notifications = [];
+let unreadNotifications = 0;
 
 const projectStorageKey = "web-upper-project-v1";
 const snapshotStorageKey = "web-upper-snapshots-v1";
+const maxNotifications = 40;
 
 function icon(name) {
   return `<svg class="icon"><use href="#i-${name}"></use></svg>`;
+}
+
+function notificationTime(date = new Date()) {
+  return date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function renderNotifications() {
+  activityCount.textContent = String(Math.min(unreadNotifications, 99));
+  activityCount.hidden = unreadNotifications === 0;
+  activityList.textContent = "";
+
+  if (!notifications.length) {
+    const empty = document.createElement("div");
+    empty.className = "activity-empty";
+    empty.textContent = "まだ通知はありません";
+    activityList.appendChild(empty);
+    return;
+  }
+
+  for (const entry of notifications) {
+    const item = document.createElement("div");
+    item.className = `activity-item is-${entry.type}`;
+    const body = document.createElement("div");
+    const message = document.createElement("strong");
+    const time = document.createElement("span");
+    message.textContent = entry.message;
+    time.textContent = entry.time;
+    body.append(message, time);
+    item.appendChild(body);
+    activityList.appendChild(item);
+  }
+}
+
+function showToast(entry) {
+  const toast = document.createElement("div");
+  toast.className = `toast is-${entry.type}`;
+  toast.setAttribute("role", entry.type === "danger" ? "alert" : "status");
+
+  const message = document.createElement("strong");
+  message.textContent = entry.message;
+  const close = document.createElement("button");
+  close.type = "button";
+  close.setAttribute("aria-label", "通知を閉じる");
+  close.textContent = "x";
+
+  const dismiss = () => toast.remove();
+  close.addEventListener("click", dismiss);
+  toast.append(message, close);
+  toastRegion.appendChild(toast);
+  window.setTimeout(dismiss, entry.type === "danger" ? 8000 : 4200);
+}
+
+function notify(message, type = "info", options = {}) {
+  const entry = {
+    id: `notice-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    message,
+    type,
+    time: notificationTime(),
+  };
+  notifications.unshift(entry);
+  notifications = notifications.slice(0, maxNotifications);
+  if (activityPanel.hidden) {
+    unreadNotifications += 1;
+  }
+  renderNotifications();
+  if (options.toast !== false) {
+    showToast(entry);
+  }
+}
+
+function toggleActivityPanel(open = activityPanel.hidden) {
+  activityPanel.hidden = !open;
+  activityToggleBtn.setAttribute("aria-expanded", String(open));
+  if (open) {
+    unreadNotifications = 0;
+  }
+  renderNotifications();
+}
+
+function clearNotifications() {
+  notifications = [];
+  unreadNotifications = 0;
+  renderNotifications();
 }
 
 function getDoc() {
@@ -1861,9 +1959,47 @@ function projectData() {
   };
 }
 
-function setAutosaveStatus(message) {
+function projectFilename() {
+  const base = currentPageTitle || new URL(currentSourceUrl || "https://web-upper.local").hostname || "web-upper";
+  const safeName = base
+    .toLowerCase()
+    .replace(/[^a-z0-9\u3040-\u30ff\u3400-\u9fff]+/gi, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 48);
+  return `${safeName || "web-upper"}-project.json`;
+}
+
+function downloadTextFile(filename, contents, type = "application/json;charset=utf-8") {
+  const blob = new Blob([contents], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function normalizeProjectPayload(payload) {
+  if (payload?.body && payload?.css) {
+    return payload;
+  }
+  if (payload?.project?.body && payload?.project?.css) {
+    return payload.project;
+  }
+  if (payload?.data?.body && payload?.data?.css) {
+    return payload.data;
+  }
+  return null;
+}
+
+function setAutosaveStatus(message, type = "info", options = {}) {
   autosaveStatus.textContent = message;
   autosaveStatus.title = message;
+  if (options.toast) {
+    notify(message, type);
+  }
 }
 
 function saveProject(manual = false) {
@@ -1877,9 +2013,9 @@ function saveProject(manual = false) {
       hour: "2-digit",
       minute: "2-digit",
     });
-    setAutosaveStatus(`${manual ? "保存済み" : "自動保存"} ${time}`);
+    setAutosaveStatus(`${manual ? "保存済み" : "自動保存"} ${time}`, "success", { toast: manual });
   } catch (error) {
-    setAutosaveStatus("保存に失敗しました");
+    setAutosaveStatus("保存に失敗しました", "danger", { toast: true });
     console.warn(error);
   }
 }
@@ -1889,42 +2025,87 @@ function scheduleAutosave() {
   autosaveTimer = window.setTimeout(() => saveProject(false), 700);
 }
 
-function applyProjectData(data) {
-  if (!data || !data.body || !data.css) {
-    setAutosaveStatus("保存済みプロジェクトがありません");
-    return;
+function applyProjectData(data, statusMessage = "復元しました") {
+  const payload = normalizeProjectPayload(data);
+  if (!payload) {
+    setAutosaveStatus("保存済みプロジェクトがありません", "warning", { toast: true });
+    return false;
   }
 
-  Object.assign(designState, data.designState || {});
+  Object.assign(designState, payload.designState || {});
   syncDesignControls();
-  currentCss = data.css;
-  currentHeadExtras = data.headExtras || "";
-  currentSourceUrl = data.sourceUrl || "";
-  currentPageTitle = data.pageTitle || "編集済みページ";
-  currentBeforeBody = data.beforeBody || data.body;
-  currentBeforeCss = data.beforeCss || data.css;
-  responsiveOverrides = data.responsiveOverrides || {};
+  currentCss = payload.css;
+  currentHeadExtras = payload.headExtras || "";
+  currentSourceUrl = payload.sourceUrl || "";
+  currentPageTitle = payload.pageTitle || "編集済みページ";
+  currentBeforeBody = payload.beforeBody || payload.body;
+  currentBeforeCss = payload.beforeCss || payload.css;
+  responsiveOverrides = payload.responsiveOverrides || {};
   selectedId = "body";
   history = [];
   historyIndex = -1;
   renderBeforeFrame(currentBeforeBody, currentBeforeCss);
-  renderFrame(data.body, currentCss, () => {
+  renderFrame(payload.body, currentCss, () => {
     commitChange();
-    setAutosaveStatus("復元しました");
+    setAutosaveStatus(statusMessage, "success", { toast: true });
   });
+  return true;
 }
 
 function restoreProject() {
   try {
     const stored = localStorage.getItem(projectStorageKey);
     if (!stored) {
-      setAutosaveStatus("保存済みプロジェクトがありません");
+      setAutosaveStatus("保存済みプロジェクトがありません", "warning", { toast: true });
       return;
     }
-    applyProjectData(JSON.parse(stored));
+    applyProjectData(JSON.parse(stored), "ローカル保存を復元しました");
   } catch (error) {
-    setAutosaveStatus("復元に失敗しました");
+    setAutosaveStatus("復元に失敗しました", "danger", { toast: true });
     console.warn(error);
+  }
+}
+
+function exportProjectJson() {
+  if (!getDoc()) {
+    setAutosaveStatus("書き出すプロジェクトがありません", "warning", { toast: true });
+    return;
+  }
+  try {
+    const data = projectData();
+    const payload = {
+      webUpper: {
+        format: "web-upper-project",
+        version: 1,
+        exportedAt: new Date().toISOString(),
+      },
+      project: data,
+    };
+    downloadTextFile(projectFilename(), JSON.stringify(payload, null, 2));
+    setAutosaveStatus("プロジェクトJSONを書き出しました", "success", { toast: true });
+  } catch (error) {
+    setAutosaveStatus("プロジェクトJSONの書き出しに失敗しました", "danger", { toast: true });
+    console.warn(error);
+  }
+}
+
+async function importProjectJsonFile(event) {
+  const file = event.target.files?.[0];
+  if (!file) {
+    return;
+  }
+
+  try {
+    const text = await file.text();
+    const payload = JSON.parse(text);
+    if (applyProjectData(payload, "プロジェクトJSONを読み込みました")) {
+      notify(`${file.name} を読み込みました`, "success", { toast: false });
+    }
+  } catch (error) {
+    setAutosaveStatus("プロジェクトJSONの読み込みに失敗しました", "danger", { toast: true });
+    console.warn(error);
+  } finally {
+    projectFileInput.value = "";
   }
 }
 
@@ -1956,7 +2137,7 @@ function newProject() {
   renderFrame(initialBody, currentCss, () => {
     commitChange();
     setPreviewMode("after");
-    setAutosaveStatus("新規プロジェクトを作成しました");
+    setAutosaveStatus("新規プロジェクトを作成しました", "success", { toast: true });
   });
 }
 
@@ -2007,18 +2188,17 @@ function saveSnapshot() {
   writeSnapshots(snapshots);
   snapshotNameInput.value = "";
   refreshSnapshotSelect();
-  setAutosaveStatus("スナップショットを保存しました");
+  setAutosaveStatus("スナップショットを保存しました", "success", { toast: true });
 }
 
 function loadSnapshot() {
   const id = snapshotSelect.value;
   const snapshot = readSnapshots().find((item) => item.id === id);
   if (!snapshot) {
-    setAutosaveStatus("スナップショットが選択されていません");
+    setAutosaveStatus("スナップショットが選択されていません", "warning", { toast: true });
     return;
   }
-  applyProjectData(snapshot.data);
-  setAutosaveStatus(`${snapshot.name} を読み込みました`);
+  applyProjectData(snapshot.data, `${snapshot.name} を読み込みました`);
 }
 
 function sampleBody(name, eyebrow, headline, copy) {
@@ -2469,6 +2649,7 @@ function applyHtmlEditor() {
   element.replaceWith(replacement);
   selectElement(replacement.dataset.editId);
   commitChange();
+  setAutosaveStatus("HTMLを適用しました", "success", { toast: true });
   htmlDialog.close();
 }
 
@@ -2619,9 +2800,12 @@ a {
   return extractedCss ? `${base}\n\n${extractedCss}` : base;
 }
 
-function setUrlStatus(message) {
+function setUrlStatus(message, type = "info", options = {}) {
   urlStatus.textContent = message;
   urlStatus.title = message;
+  if (options.toast) {
+    notify(message, type);
+  }
 }
 
 function apiErrorMessage(payload, status) {
@@ -2678,7 +2862,7 @@ async function fetchSitePayload(normalizedUrl) {
 async function loadSiteFromUrl(rawUrl) {
   const normalized = normalizeUrl(rawUrl);
   if (!normalized) {
-    setUrlStatus("URLを入力してください");
+    setUrlStatus("URLを入力してください", "warning", { toast: true });
     return;
   }
 
@@ -2717,10 +2901,11 @@ async function loadSiteFromUrl(rawUrl) {
     renderFrame(bodyHtml, currentCss, () => {
       commitChange();
       setPreviewMode("split");
-      setUrlStatus(payload.captureMode === "Rendered" ? "描画後HTMLを取得" : payload.captureMode === "Fetched" ? "HTMLを取得" : "読み込み完了");
+      setUrlStatus(payload.captureMode === "Rendered" ? "描画後HTMLを取得" : payload.captureMode === "Fetched" ? "HTMLを取得" : "読み込み完了", "success", { toast: true });
     });
   } catch (error) {
-    setUrlStatus("プレビューのみ");
+    setUrlStatus("プレビューのみ", "warning", { toast: true });
+    notify(error?.message || "URLの取り込みに失敗しました", "danger");
     showImportFallback(normalized, error);
   } finally {
     loadUrlBtn.disabled = false;
@@ -2929,6 +3114,7 @@ function importDocument() {
   selectedId = "body";
   renderFrame(nextBody, currentCss, () => {
     commitChange();
+    setAutosaveStatus("HTML/CSSを取り込みました", "success", { toast: true });
   });
   renderBeforeFrame(currentBeforeBody, currentBeforeCss);
   importDialog.close();
@@ -2944,6 +3130,7 @@ function downloadExport() {
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
+  notify("書き出しファイルをダウンロードしました", "success");
 }
 
 async function copyExport() {
@@ -2953,6 +3140,7 @@ async function copyExport() {
   } catch {
     document.execCommand("copy");
   }
+  notify("書き出し内容をコピーしました", "success");
 }
 
 function openCssEditor() {
@@ -2965,6 +3153,7 @@ function applyCssEditor() {
   currentCss = cssEditorCode.value;
   updatePageCssInFrame();
   commitChange();
+  setAutosaveStatus("CSSを適用しました", "success", { toast: true });
   cssDialog.close();
 }
 
@@ -3389,6 +3578,11 @@ function setupControls() {
   saveProjectBtn.addEventListener("click", () => saveProject(true));
   restoreProjectBtn.addEventListener("click", restoreProject);
   newProjectBtn.addEventListener("click", newProject);
+  exportProjectBtn.addEventListener("click", exportProjectJson);
+  importProjectBtn.addEventListener("click", () => projectFileInput.click());
+  projectFileInput.addEventListener("change", importProjectJsonFile);
+  activityToggleBtn.addEventListener("click", () => toggleActivityPanel());
+  activityClearBtn.addEventListener("click", clearNotifications);
   saveSnapshotBtn.addEventListener("click", saveSnapshot);
   loadSnapshotBtn.addEventListener("click", loadSnapshot);
   loadDemoBtn.addEventListener("click", loadDemoSample);
@@ -3442,16 +3636,19 @@ function setupControls() {
     exportCode.value = generateCssDiff();
     exportCode.focus();
     exportCode.select();
+    notify("CSS差分を書き出し欄に表示しました", "info");
   });
   wpExportBtn.addEventListener("click", () => {
     exportCode.value = generateWordPressCss();
     exportCode.focus();
     exportCode.select();
+    notify("WordPress用CSSを表示しました", "info");
   });
   shopifyExportBtn.addEventListener("click", () => {
     exportCode.value = generateShopifySection();
     exportCode.focus();
     exportCode.select();
+    notify("Shopifyセクションを表示しました", "info");
   });
   downloadExportBtn.addEventListener("click", downloadExport);
   designControls.audit.addEventListener("click", runPageAudit);
@@ -3498,6 +3695,7 @@ function init() {
   setupDesignControls();
   setupControls();
   refreshSnapshotSelect();
+  renderNotifications();
   setInspectorTab("content");
   updateHistoryButtons();
   renderBeforeFrame(currentBeforeBody, currentBeforeCss);

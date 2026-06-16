@@ -60,6 +60,8 @@ The checked-in launcher files are:
 - SEO / OGP editor with preview
 - Page audit for design, SEO, OGP, accessibility, performance, and maintainability
 - Autosave, manual save, restore, and named snapshots
+- Toast notifications and a notification log for important actions and failures
+- Project JSON export/import for moving work between environments
 - Layer search and drag reorder
 - HTML editor, CSS editor, CSS diff export, WordPress CSS export, and Shopify section export
 - Chrome extension launcher scaffold in `extension/`

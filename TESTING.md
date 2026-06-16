@@ -49,9 +49,12 @@
 
 - Autosave status updates after edits.
 - Save and restore project.
+- Export a project JSON file.
+- Import the exported project JSON file and confirm the preview is restored.
 - Create a named snapshot.
 - Load a saved snapshot.
 - Start a new project.
+- Trigger a save or export action and confirm the toast plus notification log update.
 
 ## Export
 

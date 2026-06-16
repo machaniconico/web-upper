@@ -56,6 +56,10 @@
         <rect x="8" y="2" width="8" height="20" rx="2"></rect>
         <path d="M11 18h2"></path>
       </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24">
+        <path d="M6 9a6 6 0 0 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9"></path>
+        <path d="M10 21h4"></path>
+      </symbol>
     </svg>
 
     <div class="app-shell">
@@ -103,6 +107,10 @@
             <svg class="icon"><use href="#i-export"></use></svg>
             <span>書出</span>
           </button>
+          <button class="icon-button notification-button" id="activityToggleBtn" type="button" title="通知ログ" aria-label="通知ログ" aria-expanded="false">
+            <svg class="icon"><use href="#i-bell"></use></svg>
+            <span class="notification-count" id="activityCount" hidden>0</span>
+          </button>
         </div>
       </header>
 
@@ -123,6 +131,17 @@
                 <svg class="icon"><use href="#i-add"></use></svg>
                 <span>新規</span>
               </button>
+            </div>
+            <div class="project-actions project-actions-secondary">
+              <button class="text-button wide" id="exportProjectBtn" type="button">
+                <svg class="icon"><use href="#i-export"></use></svg>
+                <span>JSON書出</span>
+              </button>
+              <button class="text-button wide" id="importProjectBtn" type="button">
+                <svg class="icon"><use href="#i-import"></use></svg>
+                <span>JSON読込</span>
+              </button>
+              <input id="projectFileInput" type="file" accept="application/json,.json" hidden>
             </div>
             <span class="autosave-status" id="autosaveStatus">自動保存準備完了</span>
             <label class="field">
@@ -450,6 +469,15 @@
         </aside>
       </main>
     </div>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="false"></div>
+    <aside class="activity-panel" id="activityPanel" aria-label="通知ログ" hidden>
+      <div class="activity-header">
+        <h2>通知ログ</h2>
+        <button class="text-button" id="activityClearBtn" type="button">クリア</button>
+      </div>
+      <div class="activity-list" id="activityList"></div>
+    </aside>
 
     <dialog id="importDialog">
       <form method="dialog" class="dialog-card">
