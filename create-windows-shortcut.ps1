@@ -6,6 +6,8 @@ $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $shortcutName = "Web Upper " + [char]0x8D77 + [char]0x52D5 + ".lnk"
+$shortcutDescription = "Web Upper " + [char]0x3092 + [char]0x8D77 + [char]0x52D5 + [char]0x3057 + [char]0x307E + [char]0x3059
+$createdMessage = "Web Upper " + [char]0x8D77 + [char]0x52D5 + [char]0x30A2 + [char]0x30A4 + [char]0x30B3 + [char]0x30F3 + [char]0x3092 + [char]0x4F5C + [char]0x6210 + [char]0x3057 + [char]0x307E + [char]0x3057 + [char]0x305F
 $shortcutDirectory = if ($Desktop) {
   [Environment]::GetFolderPath("Desktop")
 } else {
@@ -27,8 +29,8 @@ $shortcut.TargetPath = $target
 $shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$script`""
 $shortcut.WorkingDirectory = $root
 $shortcut.IconLocation = $icon
-$shortcut.Description = "Launch Web Upper"
+$shortcut.Description = $shortcutDescription
 $shortcut.WindowStyle = 7
 $shortcut.Save()
 
-Write-Host "Created icon shortcut: $shortcutPath"
+Write-Host ($createdMessage + ": " + $shortcutPath)
