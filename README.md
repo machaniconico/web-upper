@@ -80,6 +80,25 @@ npm start
 
 When Playwright is installed, Web Upper first tries `/api/render` and falls back to `/api/fetch` if rendering is unavailable.
 
+## Server Safety
+
+Web Upper blocks private and reserved network URLs by default when importing through `/api/fetch` or `/api/render`.
+This helps avoid server-side requests to localhost, router/admin pages, and internal services when the app is shared or deployed.
+
+Copy `.env.example` if you need to tune server limits:
+
+```bash
+cp .env.example .env
+```
+
+Available settings:
+
+- `WEB_UPPER_FETCH_TIMEOUT_MS` controls plain HTML fetch timeout.
+- `WEB_UPPER_RENDER_TIMEOUT_MS` controls Playwright render timeout.
+- `WEB_UPPER_MAX_HTML_BYTES` limits imported HTML size.
+- `WEB_UPPER_MAX_REDIRECTS` limits followed redirects.
+- `WEB_UPPER_ALLOW_PRIVATE_URLS=1` allows trusted local/private URLs for local-only editing.
+
 ## Chrome Extension Launcher
 
 1. Open Chrome extensions.
@@ -100,3 +119,9 @@ The server listens on `process.env.PORT` or `4173`.
 ## Manual QA
 
 See [TESTING.md](./TESTING.md).
+
+For a quick server check:
+
+```bash
+npm run smoke
+```

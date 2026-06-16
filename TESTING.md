@@ -5,6 +5,7 @@
 - `npm start` serves `http://localhost:4173`.
 - `GET /health` returns `ok`.
 - `npm run check` passes.
+- `npm run smoke` passes.
 - `Web Upper 起動.cmd` starts the server and creates or refreshes `Web Upper 起動.lnk` with the Web Upper icon.
 - `create-windows-shortcut.ps1 -Desktop` creates the same icon shortcut on the Windows desktop.
 
@@ -15,6 +16,7 @@
 - After preview is selectable/editable.
 - Split mode shows both previews.
 - Slider mode reveals before/after with the range control.
+- Importing `http://127.0.0.1:4173/health` is blocked unless `WEB_UPPER_ALLOW_PRIVATE_URLS=1` is set.
 - If rendered capture is unavailable, the app falls back to fetched HTML.
 
 ## Editing

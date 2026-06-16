@@ -2624,6 +2624,37 @@ function setUrlStatus(message) {
   urlStatus.title = message;
 }
 
+function apiErrorMessage(payload, status) {
+  const fallback = payload.detail || payload.error || `HTTP ${status}`;
+  const messages = {
+    dns_lookup_failed: "URLのホスト名を解決できませんでした。",
+    invalid_url: "URLの形式を確認してください。",
+    playwright_missing: "描画後HTMLの取得には Playwright が必要です。通常のHTML取得へ切り替えます。",
+    private_network_blocked:
+      "安全のためローカル/社内ネットワークのURLはサーバー取り込みを停止しました。ローカル限定で使う場合は WEB_UPPER_ALLOW_PRIVATE_URLS=1 を設定してください。",
+    request_timeout: "URLの読み込みがタイムアウトしました。",
+    response_too_large: "取り込むHTMLが大きすぎます。WEB_UPPER_MAX_HTML_BYTES を調整してください。",
+    too_many_redirects: "リダイレクトが多すぎるため読み込みを停止しました。",
+    unsupported_protocol: "http または https のURLを入力してください。",
+  };
+  return messages[payload.code] || fallback;
+}
+
+async function readApiError(response) {
+  try {
+    const payload = await response.clone().json();
+    const message = apiErrorMessage(payload, response.status);
+    const error = new Error(message);
+    error.code = payload.code || "";
+    error.status = response.status;
+    return error;
+  } catch {
+    const error = new Error(`HTTP ${response.status}`);
+    error.status = response.status;
+    return error;
+  }
+}
+
 async function fetchSitePayload(normalizedUrl) {
   const endpoints = ["/api/render", "/api/fetch"];
   let lastError = null;
@@ -2631,7 +2662,7 @@ async function fetchSitePayload(normalizedUrl) {
     try {
       const response = await fetch(`${endpoint}?url=${encodeURIComponent(normalizedUrl)}`);
       if (!response.ok) {
-        lastError = new Error(`HTTP ${response.status}`);
+        lastError = await readApiError(response);
         continue;
       }
       const payload = await response.json();
