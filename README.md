@@ -25,11 +25,18 @@ Web Upper 起動.cmd
 ```
 
 This starts the local server if needed and opens `http://localhost:4173`.
+It also creates or refreshes an icon shortcut named `Web Upper 起動.lnk` in the project folder.
 
 To create or recreate the icon shortcut:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\create-windows-shortcut.ps1
+```
+
+To create the same shortcut on your desktop:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\create-windows-shortcut.ps1 -Desktop
 ```
 
 The checked-in launcher files are:
@@ -38,6 +45,7 @@ The checked-in launcher files are:
 - `launch-web-upper.ps1`
 - `create-windows-shortcut.ps1`
 - `assets/web-upper-icon.svg`
+- `assets/web-upper-icon.ico`
 
 ## Features
 

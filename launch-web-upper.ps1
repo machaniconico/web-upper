@@ -40,7 +40,7 @@ if (-not (Test-WebUpperServer)) {
   }
 
   if (-not $ready) {
-    Show-WebUpperMessage "Failed to start Web Upper. Please confirm Node.js is installed."
+    Show-WebUpperMessage "Failed to confirm Web Upper startup. Please check Node.js and port $port."
     exit 1
   }
 }

@@ -5,6 +5,8 @@
 - `npm start` serves `http://localhost:4173`.
 - `GET /health` returns `ok`.
 - `npm run check` passes.
+- `Web Upper 起動.cmd` starts the server and creates or refreshes `Web Upper 起動.lnk` with the Web Upper icon.
+- `create-windows-shortcut.ps1 -Desktop` creates the same icon shortcut on the Windows desktop.
 
 ## URL Import
 
