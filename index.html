@@ -60,6 +60,9 @@
         <path d="M6 9a6 6 0 0 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9"></path>
         <path d="M10 21h4"></path>
       </symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24">
+        <path d="M3 7a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"></path>
+      </symbol>
     </svg>
 
     <div class="app-shell">
@@ -143,6 +146,10 @@
               </button>
               <input id="projectFileInput" type="file" accept="application/json,.json" hidden>
             </div>
+            <button class="text-button wide project-manager-button" id="projectManagerBtn" type="button">
+              <svg class="icon"><use href="#i-folder"></use></svg>
+              <span>案件管理</span>
+            </button>
             <span class="autosave-status" id="autosaveStatus">自動保存準備完了</span>
             <label class="field">
               <span>スナップショット名</span>
@@ -539,6 +546,45 @@
             <svg class="icon"><use href="#i-export"></use></svg>
             <span>DL</span>
           </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="projectManagerDialog">
+      <form method="dialog" class="dialog-card project-manager-card">
+        <div class="dialog-title">
+          <h2>プロジェクト管理</h2>
+          <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">x</button>
+        </div>
+        <div class="project-manager-layout">
+          <section class="project-save-panel" aria-label="現在のプロジェクト">
+            <label class="field">
+              <span>保存名</span>
+              <input id="projectLibraryNameInput" type="text" autocomplete="off" placeholder="クライアントA トップ改善">
+            </label>
+            <div class="project-current-summary" id="projectCurrentSummary"></div>
+            <button class="text-button primary wide" id="saveProjectToLibraryBtn" type="button">
+              <svg class="icon"><use href="#i-export"></use></svg>
+              <span>現在を保存</span>
+            </button>
+          </section>
+          <section class="project-library-panel" aria-label="保存済みプロジェクト">
+            <div class="project-library-header">
+              <strong>保存済み案件</strong>
+              <span id="projectLibraryCount">0件</span>
+            </div>
+            <div class="project-library-list" id="projectLibraryList" aria-label="保存済み案件"></div>
+            <div class="project-library-actions">
+              <button class="text-button" id="loadProjectFromLibraryBtn" type="button" disabled>
+                <svg class="icon"><use href="#i-import"></use></svg>
+                <span>読込</span>
+              </button>
+              <button class="text-button danger" id="deleteProjectFromLibraryBtn" type="button" disabled>
+                <svg class="icon"><use href="#i-trash"></use></svg>
+                <span>削除</span>
+              </button>
+            </div>
+          </section>
         </div>
       </form>
     </dialog>

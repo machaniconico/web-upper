@@ -49,6 +49,7 @@
 
 - Autosave status updates after edits.
 - Save and restore project.
+- Open Project Manager, save the current work as a named project, select it, load it, and delete it after confirmation.
 - Export a project JSON file.
 - Import the exported project JSON file and confirm the preview is restored.
 - Create a named snapshot.

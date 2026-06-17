@@ -59,7 +59,7 @@ The checked-in launcher files are:
 - Design Lab with palette, typography, rhythm, depth, industry polish, and contrast tools
 - SEO / OGP editor with preview
 - Page audit for design, SEO, OGP, accessibility, performance, and maintainability
-- Autosave, manual save, restore, and named snapshots
+- Autosave, manual save, restore, named snapshots, and multi-project case management
 - Toast notifications and a notification log for important actions and failures
 - Project JSON export/import for moving work between environments
 - Export preflight check with score and top issues before downloading deliverables

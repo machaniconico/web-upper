@@ -59,6 +59,15 @@ const newProjectBtn = document.querySelector("#newProjectBtn");
 const exportProjectBtn = document.querySelector("#exportProjectBtn");
 const importProjectBtn = document.querySelector("#importProjectBtn");
 const projectFileInput = document.querySelector("#projectFileInput");
+const projectManagerBtn = document.querySelector("#projectManagerBtn");
+const projectManagerDialog = document.querySelector("#projectManagerDialog");
+const projectLibraryNameInput = document.querySelector("#projectLibraryNameInput");
+const projectCurrentSummary = document.querySelector("#projectCurrentSummary");
+const saveProjectToLibraryBtn = document.querySelector("#saveProjectToLibraryBtn");
+const projectLibraryList = document.querySelector("#projectLibraryList");
+const projectLibraryCount = document.querySelector("#projectLibraryCount");
+const loadProjectFromLibraryBtn = document.querySelector("#loadProjectFromLibraryBtn");
+const deleteProjectFromLibraryBtn = document.querySelector("#deleteProjectFromLibraryBtn");
 const autosaveStatus = document.querySelector("#autosaveStatus");
 const snapshotNameInput = document.querySelector("#snapshotNameInput");
 const snapshotSelect = document.querySelector("#snapshotSelect");
@@ -749,10 +758,13 @@ let responsiveOverrides = {};
 let draggedLayerId = "";
 let notifications = [];
 let unreadNotifications = 0;
+let selectedLibraryProjectId = "";
 
 const projectStorageKey = "web-upper-project-v1";
+const projectLibraryStorageKey = "web-upper-project-library-v1";
 const snapshotStorageKey = "web-upper-snapshots-v1";
 const maxNotifications = 40;
+const maxLibraryProjects = 32;
 
 function icon(name) {
   return `<svg class="icon"><use href="#i-${name}"></use></svg>`;
@@ -2114,6 +2126,217 @@ async function importProjectJsonFile(event) {
   } finally {
     projectFileInput.value = "";
   }
+}
+
+function readProjectLibrary() {
+  try {
+    const value = JSON.parse(localStorage.getItem(projectLibraryStorageKey) || "[]");
+    if (!Array.isArray(value)) {
+      return [];
+    }
+    return value.filter((item) => item?.id && normalizeProjectPayload(item.data));
+  } catch {
+    return [];
+  }
+}
+
+function writeProjectLibrary(items) {
+  localStorage.setItem(projectLibraryStorageKey, JSON.stringify(items.slice(0, maxLibraryProjects)));
+}
+
+function formatProjectLibraryDate(value) {
+  const date = value ? new Date(value) : new Date();
+  if (Number.isNaN(date.getTime())) {
+    return "日時不明";
+  }
+  return date.toLocaleString([], {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function projectLibraryDefaultName(data = projectData()) {
+  const title = (data.pageTitle || currentPageTitle || "").trim();
+  if (title && title !== "編集済みページ") {
+    return title.slice(0, 48);
+  }
+  try {
+    const hostname = new URL(data.sourceUrl || currentSourceUrl).hostname;
+    if (hostname) {
+      return `${hostname} 改善`;
+    }
+  } catch {
+    // Fall through to the generic name.
+  }
+  return `案件 ${formatProjectLibraryDate(new Date().toISOString())}`;
+}
+
+function projectLibraryMeta(data) {
+  const source = data.sourceUrl || "";
+  let host = "ローカル編集";
+  try {
+    host = source ? new URL(source).hostname : host;
+  } catch {
+    host = source || host;
+  }
+  return {
+    title: data.pageTitle || "編集済みページ",
+    source: host,
+    updated: formatProjectLibraryDate(data.savedAt),
+  };
+}
+
+function updateProjectCurrentSummary() {
+  if (!projectCurrentSummary) {
+    return;
+  }
+  const data = projectData();
+  const meta = projectLibraryMeta(data);
+  projectCurrentSummary.innerHTML = "";
+
+  for (const [label, value] of [
+    ["ページ", meta.title],
+    ["元URL", meta.source],
+    ["状態", `${history.length}履歴 / ${Object.keys(responsiveOverrides).length}端末設定`],
+  ]) {
+    const row = document.createElement("div");
+    const labelNode = document.createElement("span");
+    const valueNode = document.createElement("strong");
+    labelNode.textContent = label;
+    valueNode.textContent = value;
+    row.append(labelNode, valueNode);
+    projectCurrentSummary.appendChild(row);
+  }
+}
+
+function selectProjectLibraryItem(id) {
+  selectedLibraryProjectId = id;
+  const library = readProjectLibrary();
+  const item = library.find((entry) => entry.id === id);
+  if (item) {
+    projectLibraryNameInput.value = item.name;
+  }
+  refreshProjectLibrary();
+}
+
+function refreshProjectLibrary() {
+  const library = readProjectLibrary();
+  const selected = library.find((item) => item.id === selectedLibraryProjectId);
+  projectLibraryCount.textContent = `${library.length}件`;
+  projectLibraryList.textContent = "";
+
+  if (!library.length) {
+    const empty = document.createElement("div");
+    empty.className = "project-library-empty";
+    empty.textContent = "まだ保存済み案件はありません。";
+    projectLibraryList.appendChild(empty);
+  } else {
+    for (const item of library) {
+      const meta = projectLibraryMeta(item.data);
+      const row = document.createElement("button");
+      row.type = "button";
+      row.className = "project-library-row";
+      row.dataset.projectId = item.id;
+      row.setAttribute("aria-pressed", item.id === selectedLibraryProjectId ? "true" : "false");
+      if (item.id === selectedLibraryProjectId) {
+        row.classList.add("is-selected");
+      }
+
+      const main = document.createElement("span");
+      main.className = "project-library-main";
+      const name = document.createElement("strong");
+      name.textContent = item.name || meta.title;
+      const source = document.createElement("span");
+      source.textContent = meta.source;
+      main.append(name, source);
+
+      const detail = document.createElement("span");
+      detail.className = "project-library-meta";
+      detail.textContent = `${meta.updated} 更新`;
+
+      row.append(main, detail);
+      row.addEventListener("click", () => selectProjectLibraryItem(item.id));
+      projectLibraryList.appendChild(row);
+    }
+  }
+
+  loadProjectFromLibraryBtn.disabled = !selected;
+  deleteProjectFromLibraryBtn.disabled = !selected;
+}
+
+function openProjectManager() {
+  selectedLibraryProjectId = "";
+  projectLibraryNameInput.value = projectLibraryDefaultName();
+  updateProjectCurrentSummary();
+  refreshProjectLibrary();
+  projectManagerDialog.showModal();
+  projectLibraryNameInput.focus();
+  projectLibraryNameInput.select();
+}
+
+function saveProjectToLibrary() {
+  if (!getDoc()) {
+    setAutosaveStatus("保存するプロジェクトがありません", "warning", { toast: true });
+    return;
+  }
+
+  try {
+    const data = projectData();
+    const name = projectLibraryNameInput.value.trim() || projectLibraryDefaultName(data);
+    const library = readProjectLibrary();
+    const existingIndex = library.findIndex((item) => item.id === selectedLibraryProjectId);
+    const item = {
+      id: existingIndex >= 0 ? library[existingIndex].id : `project-${Date.now()}`,
+      name,
+      updatedAt: data.savedAt,
+      sourceUrl: data.sourceUrl || "",
+      pageTitle: data.pageTitle || "",
+      data,
+    };
+
+    if (existingIndex >= 0) {
+      library.splice(existingIndex, 1);
+    }
+    library.unshift(item);
+    writeProjectLibrary(library);
+    selectedLibraryProjectId = item.id;
+    projectLibraryNameInput.value = name;
+    refreshProjectLibrary();
+    setAutosaveStatus(`${name} を案件管理に保存しました`, "success", { toast: true });
+  } catch (error) {
+    setAutosaveStatus("案件管理への保存に失敗しました", "danger", { toast: true });
+    console.warn(error);
+  }
+}
+
+function loadProjectFromLibrary() {
+  const library = readProjectLibrary();
+  const item = library.find((entry) => entry.id === selectedLibraryProjectId);
+  if (!item) {
+    setAutosaveStatus("読み込む案件を選択してください", "warning", { toast: true });
+    return;
+  }
+  if (applyProjectData(item.data, `${item.name} を読み込みました`)) {
+    projectManagerDialog.close();
+  }
+}
+
+function deleteProjectFromLibrary() {
+  const library = readProjectLibrary();
+  const item = library.find((entry) => entry.id === selectedLibraryProjectId);
+  if (!item) {
+    return;
+  }
+  if (!window.confirm(`${item.name} を案件管理から削除しますか？`)) {
+    return;
+  }
+  writeProjectLibrary(library.filter((entry) => entry.id !== selectedLibraryProjectId));
+  selectedLibraryProjectId = "";
+  projectLibraryNameInput.value = projectLibraryDefaultName();
+  refreshProjectLibrary();
+  setAutosaveStatus(`${item.name} を削除しました`, "success", { toast: true });
 }
 
 function newProject() {
@@ -3669,6 +3892,16 @@ function setupControls() {
   exportProjectBtn.addEventListener("click", exportProjectJson);
   importProjectBtn.addEventListener("click", () => projectFileInput.click());
   projectFileInput.addEventListener("change", importProjectJsonFile);
+  projectManagerBtn.addEventListener("click", openProjectManager);
+  saveProjectToLibraryBtn.addEventListener("click", saveProjectToLibrary);
+  loadProjectFromLibraryBtn.addEventListener("click", loadProjectFromLibrary);
+  deleteProjectFromLibraryBtn.addEventListener("click", deleteProjectFromLibrary);
+  projectLibraryNameInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      saveProjectToLibrary();
+    }
+  });
   activityToggleBtn.addEventListener("click", () => toggleActivityPanel());
   activityClearBtn.addEventListener("click", clearNotifications);
   saveSnapshotBtn.addEventListener("click", saveSnapshot);
